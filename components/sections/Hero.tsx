@@ -46,9 +46,7 @@ const SunOrb = ({ onClick }: { onClick: () => void }) => (
     aria-label="Activar sol"
   >
     <span className="hero-sun-glow" />
-    <span className="hero-sun-disc">
-      <span className="hero-sun-spec" />
-    </span>
+    <span className="hero-sun-disc" />
     <span className="hero-sun-ring hero-sun-ring-1" />
     <span className="hero-sun-ring hero-sun-ring-2" />
   </button>
@@ -64,21 +62,24 @@ export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
   const strongRef = useRef<HTMLElement>(null);
 
-  // Combined SCROLL + MOUSE parallax
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
 
-    let scrollY = 0;
-    let mx = 0,
-      my = 0;
-    let pending = false;
-    let raf = 0;
+    const RADIUS = 65;
+    const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
+    const disc = sunRef.current?.querySelector('.hero-sun-disc') as HTMLElement | null;
 
-    const apply = () => {
-      pending = false;
-      // scroll deltas + mouse deltas (mouse in normalized -1..1)
-      const sy = scrollY;
+    let mx = 0, my = 0;
+    let parallaxPending = false;
+    let parallaxRaf = 0;
+    let fallRaf = 0;
+    let fallStarted = false;
+
+    // ── Parallax del fondo (bg, glow, kanji) ──
+    const applyParallax = () => {
+      parallaxPending = false;
+      const sy = window.scrollY;
       if (parallaxRef.current)
         parallaxRef.current.style.transform = `translate3d(${mx * 18}px, ${sy * 0.25 + my * 12}px, 0)`;
       if (glowRef.current)
@@ -87,38 +88,128 @@ export default function Hero() {
         kanji1Ref.current.style.transform = `translate3d(${mx * 40 + sy * 0.08}px, ${my * 30 + sy * 0.35}px, 0)`;
       if (kanji2Ref.current)
         kanji2Ref.current.style.transform = `translate3d(${-mx * 25 - sy * 0.05}px, ${-my * 20 - sy * 0.2}px, 0)`;
-      if (fujiRef.current)
-        fujiRef.current.style.transform = `translate3d(${-mx * 14}px, ${-my * 10 - sy * 0.12}px, 0)`;
-      if (sunRef.current)
-        sunRef.current.style.transform = `translate3d(${-mx * 28}px, ${-my * 22 - sy * 0.18}px, 0)`;
+    };
+
+    // ── Física: caída libre → rebotes → rueda → desaparece ──
+    const startFall = () => {
+      if (fallStarted) return;
+      fallStarted = true;
+
+      // Quitar bobbing CSS para que la física tome el control
+      const sunEl = sunRef.current?.querySelector('.hero-sun') as HTMLElement | null;
+      if (sunEl) sunEl.style.animation = 'none';
+
+      const GRAVITY        = 0.58;  // px/frame² — caída lenta y cinématica
+      const RESTITUTION    = 0.55;  // energía retenida en cada rebote (55%)
+      const SLOPE_DY_PER_DX = 1.9; // ladera: por cada 1px derecha, baja 1.9px
+      const MIN_BOUNCE_VY  = 2.2;  // umbral para dejar de rebotar
+
+      let vx = -0.3, vy = 0;
+      let x  = 0,    y  = 0;
+      let rotation   = 0;
+      let alpha      = 1;
+      let bounces    = 0;
+      // Referencia a la superficie de la ladera (se establece en el primer contacto)
+      let slopeY0    = 0;  // y del slope en x = contactX
+      let contactX   = 0;
+      type Phase = 'fall' | 'bounce' | 'roll' | 'fade';
+      let phase: Phase = 'fall';
+
+      // Superficie inclinada en la posición x actual
+      const slopeAt = () => slopeY0 + (x - contactX) * SLOPE_DY_PER_DX;
+
+      const tick = () => {
+        // 1. Actualizar velocidades
+        vy += GRAVITY;
+        if (phase === 'fall') vx -= 0.025; // deriva izquierda hacia la ladera
+
+        // 2. Actualizar posición
+        x += vx;
+        y += vy;
+
+        // 3. Transiciones de fase
+        if (phase === 'fall') {
+          if (y >= 215) {
+            // Primer impacto con la ladera
+            contactX = x;
+            slopeY0  = y;
+            bounces  = 1;
+            vy = -Math.abs(vy) * RESTITUTION; // rebote hacia arriba
+            vx = 1.8;                          // la ladera redirige a la derecha
+            phase = 'bounce';
+          }
+
+        } else if (phase === 'bounce') {
+          const surface = slopeAt();
+          if (y >= surface && vy > 0) {
+            // Tocó la ladera otra vez
+            y = surface; // anclar a la superficie
+            bounces++;
+            if (Math.abs(vy) < MIN_BOUNCE_VY || bounces > 4) {
+              // Rebotes agotados → empieza a rodar
+              phase = 'roll';
+              vy = Math.abs(vy) + 1.5;
+              vx = vy / SLOPE_DY_PER_DX;
+            } else {
+              // Otro rebote, cada vez más pequeño
+              vy = -Math.abs(vy) * RESTITUTION;
+              vx = Math.abs(vx) * 1.05 + 0.4; // avanza un poco más a la derecha
+            }
+          }
+
+        } else if (phase === 'roll') {
+          // Rueda: vx determinado por ángulo de ladera
+          vy += GRAVITY * 0.28;
+          vx  = vy / SLOPE_DY_PER_DX;
+          if (y > 440) phase = 'fade';
+
+        } else {
+          // Desvanece mientras sigue rodando
+          vy += GRAVITY * 0.10;
+          vx  = vy / SLOPE_DY_PER_DX;
+          alpha -= 0.028;
+          if (alpha <= 0) {
+            if (sunRef.current) sunRef.current.style.opacity = '0';
+            return; // fin
+          }
+          if (sunRef.current)
+            sunRef.current.style.opacity = alpha.toFixed(3);
+        }
+
+        // Rotación física: ángulo = distancia_horizontal / circunferencia × 360°
+        rotation += (vx / CIRCUMFERENCE) * 360;
+
+        if (sunRef.current)
+          sunRef.current.style.transform = `translate3d(${x + mx * 4}px, ${y + my * 2}px, 0)`;
+        if (disc)
+          disc.style.transform = `rotate(${rotation}deg)`;
+
+        fallRaf = requestAnimationFrame(tick);
+      };
+
+      fallRaf = requestAnimationFrame(tick);
     };
 
     const onScroll = () => {
-      scrollY = window.scrollY;
-      if (!pending) {
-        pending = true;
-        raf = requestAnimationFrame(apply);
-      }
+      startFall();
+      if (!parallaxPending) { parallaxPending = true; parallaxRaf = requestAnimationFrame(applyParallax); }
     };
-
     const onMouse = (e: MouseEvent) => {
       const r = section.getBoundingClientRect();
-      mx = (e.clientX / r.width - 0.5) * 2;
+      mx = (e.clientX / r.width  - 0.5) * 2;
       my = ((e.clientY - r.top) / r.height - 0.5) * 2;
-      if (!pending) {
-        pending = true;
-        raf = requestAnimationFrame(apply);
-      }
+      if (!parallaxPending) { parallaxPending = true; parallaxRaf = requestAnimationFrame(applyParallax); }
     };
 
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('mousemove', onMouse, { passive: true });
-    apply();
+    window.addEventListener('scroll',    onScroll, { passive: true });
+    window.addEventListener('mousemove', onMouse,  { passive: true });
+    applyParallax();
 
     return () => {
-      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('scroll',    onScroll);
       window.removeEventListener('mousemove', onMouse);
-      cancelAnimationFrame(raf);
+      cancelAnimationFrame(parallaxRaf);
+      cancelAnimationFrame(fallRaf);
     };
   }, []);
 
@@ -207,9 +298,11 @@ export default function Hero() {
         <div className="fuji-wrap" ref={fujiRef}>
           <MountainSVG />
         </div>
-        <div className="hero-sun-wrap" ref={sunRef}>
-          <SunOrb onClick={handleSunClick} />
-        </div>
+      </div>
+
+      {/* Sun lives at section level — not clipped by hero-right overflow */}
+      <div className="hero-sun-wrap" ref={sunRef}>
+        <SunOrb onClick={handleSunClick} />
       </div>
 
       <div className="hero-scroll">

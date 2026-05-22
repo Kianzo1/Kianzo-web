@@ -25,10 +25,10 @@ export default function Cursor() {
     let running = true;
 
     const loop = () => {
-      dx += (tx - dx) * 0.45;
-      dy += (ty - dy) * 0.45;
-      rx += (tx - rx) * 0.18;
-      ry += (ty - ry) * 0.18;
+      dx += (tx - dx) * 0.85;
+      dy += (ty - dy) * 0.85;
+      rx += (tx - rx) * 0.22;
+      ry += (ty - ry) * 0.22;
       if (dotRef.current)
         dotRef.current.style.transform = `translate3d(${dx}px, ${dy}px, 0) translate(-50%, -50%)`;
       if (ringRef.current)

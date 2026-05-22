@@ -24,7 +24,7 @@ export default function Contact() {
 
         <div className="contact-actions" data-reveal="up">
           <a
-            href="https://wa.me/549XXXXXXXXXX"
+            href="https://wa.me/5492616272454"
             target="_blank"
             rel="noopener noreferrer"
             className="contact-btn contact-btn-wa"
@@ -33,9 +33,9 @@ export default function Contact() {
             <span>WhatsApp</span>
             <span className="contact-btn-arrow">→</span>
           </a>
-          <a href="mailto:hola@kianzo.com" className="contact-btn contact-btn-ghost">
+          <a href="https://mail.google.com/mail/?view=cm&to=kianzo.web@gmail.com" target="_blank" rel="noopener noreferrer" className="contact-btn contact-btn-ghost">
             <EnvelopeSimple weight="light" size={18} />
-            <span>hola@kianzo.com</span>
+            <span>kianzo.web@gmail.com</span>
             <span className="contact-btn-arrow">→</span>
           </a>
         </div>

@@ -1,6 +1,39 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+
+const SCRAMBLE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ01キアンゾ';
+const ORIGINAL = 'Kianzo';
+
+function useScramble() {
+  const ref = useRef<HTMLSpanElement>(null);
+  const rafRef = useRef(0);
+
+  const trigger = () => {
+    const el = ref.current;
+    if (!el) return;
+    cancelAnimationFrame(rafRef.current);
+    let frame = 0;
+    const total = 11;
+    const tick = () => {
+      const revealed = Math.floor((frame / total) * ORIGINAL.length);
+      let out = '';
+      for (let i = 0; i < ORIGINAL.length; i++) {
+        out += i < revealed
+          ? ORIGINAL[i]
+          : SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
+      }
+      el.textContent = out;
+      frame++;
+      if (frame <= total) rafRef.current = requestAnimationFrame(tick);
+      else el.textContent = ORIGINAL;
+    };
+    rafRef.current = requestAnimationFrame(tick);
+  };
+
+  useEffect(() => () => cancelAnimationFrame(rafRef.current), []);
+  return { ref, trigger };
+}
 
 const NavLogo = () => (
   <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -15,6 +48,7 @@ const NavLogo = () => (
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const { ref: logoRef, trigger: scrambleLogo } = useScramble();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 30);
@@ -28,11 +62,11 @@ export default function Navbar() {
   return (
     <>
       <nav className={`kianzo-nav${scrolled ? ' scrolled' : ''}`}>
-        <a href="#hero" className="nav-logo">
+        <a href="#hero" className="nav-logo" onMouseEnter={scrambleLogo}>
           <NavLogo />
           <div>
             <span className="nav-logo-text">
-              Kianzo<span>.</span>
+              <span ref={logoRef}>Kianzo</span><span>.</span>
             </span>
             <span className="nav-ja">キアンゾ</span>
           </div>

@@ -100,7 +100,7 @@ const cards: Card[] = [
     name: 'Landing Page',
     tagline: 'Tu negocio en la web en 7 días',
     tags: ['Diseño a medida', 'Carga rápida', 'SEO básico'],
-    price: 'USD 150',
+    price: 'USD 200',
     priceMuted: 'precio base',
   },
   {
@@ -109,7 +109,7 @@ const cards: Card[] = [
     name: 'Web Institucional',
     tagline: 'Presencia profesional completa',
     tags: ['Multi-sección', 'Panel admin', 'Blog', 'SEO avanzado'],
-    price: 'USD 400',
+    price: 'USD 350',
     priceMuted: 'precio base',
   },
   {
@@ -118,7 +118,7 @@ const cards: Card[] = [
     name: 'E-commerce',
     tagline: 'Vendé las 24 hs, los 7 días',
     tags: ['Carrito de compras', 'MercadoPago', 'Gestión de stock'],
-    price: 'USD 700',
+    price: 'USD 500',
     priceMuted: 'precio base',
   },
   {
@@ -139,7 +139,6 @@ const cards: Card[] = [
     tags: ['Android & iOS', 'Multiplataforma', 'Nativa'],
     price: 'Consultar',
     priceMuted: 'cotización gratis',
-    badge: { text: 'Próximamente' },
   },
   {
     k: 'mantenimiento',
@@ -147,8 +146,8 @@ const cards: Card[] = [
     name: 'Mantenimiento',
     tagline: 'Tu sitio siempre en perfecto estado',
     tags: ['Actualizaciones', 'Seguridad', 'Soporte mensual'],
-    price: 'USD 30',
-    priceMuted: 'por mes',
+    price: 'USD 15',
+    priceMuted: 'aprox / mes',
   },
 ];
 
@@ -172,6 +171,22 @@ export default function Services() {
     );
     targets.forEach((t) => obs.observe(t));
     return () => obs.disconnect();
+  }, []);
+
+  // Spotlight: el glow sigue el cursor dentro de cada card
+  useEffect(() => {
+    const cards = document.querySelectorAll<HTMLElement>('.svc-card');
+    const cleanup: (() => void)[] = [];
+    cards.forEach((card) => {
+      const onMove = (e: MouseEvent) => {
+        const r = card.getBoundingClientRect();
+        card.style.setProperty('--mx', `${e.clientX - r.left}px`);
+        card.style.setProperty('--my', `${e.clientY - r.top}px`);
+      };
+      card.addEventListener('mousemove', onMove);
+      cleanup.push(() => card.removeEventListener('mousemove', onMove));
+    });
+    return () => cleanup.forEach((fn) => fn());
   }, []);
 
   return (
@@ -241,7 +256,14 @@ export default function Services() {
             La solución digital completa para tu negocio.
           </p>
         </div>
-        <div className="combo-pill">20% OFF · Consultar</div>
+        <a
+          href="https://wa.me/5492616272454?text=Hola%2C%20me%20interesa%20el%20combo%20Web%20%2B%20App%20M%C3%B3vil%20con%2020%25%20off"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="combo-pill"
+        >
+          20% OFF · Consultar
+        </a>
       </div>
     </section>
   );
