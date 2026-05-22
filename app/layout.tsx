@@ -25,7 +25,7 @@ const body = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://kianzo.com'),
+  metadataBase: new URL('https://kianzo.org'),
   title: 'Kianzo | Diseño Web & Apps Móviles en Mendoza, Argentina',
   description:
     'Kianzo — Desarrollo de páginas web profesionales y aplicaciones móviles en Mendoza, Argentina. Landing pages, e-commerce, webs institucionales desde USD 250. Cotización gratis.',
@@ -33,21 +33,28 @@ export const metadata: Metadata = {
     'diseño web mendoza',
     'desarrollo web mendoza',
     'páginas web mendoza',
+    'agencia web mendoza',
     'apps móviles mendoza',
     'landing page mendoza',
+    'landing page argentina',
+    'e-commerce mendoza',
     'e-commerce argentina',
     'desarrollador web mendoza',
     'agencia digital mendoza',
+    'páginas web para empresas mendoza',
+    'crear página web mendoza',
+    'diseño web profesional argentina',
     'automatización whatsapp',
     'kianzo',
+    'kianzo web',
   ],
   authors: [{ name: 'Kianzo' }],
   creator: 'Kianzo',
-  alternates: { canonical: 'https://kianzo.com' },
+  alternates: { canonical: 'https://kianzo.org' },
   openGraph: {
     type: 'website',
     locale: 'es_AR',
-    url: 'https://kianzo.com',
+    url: 'https://kianzo.org',
     siteName: 'Kianzo',
     title: 'Kianzo | Diseño Web & Apps Móviles en Mendoza',
     description:
@@ -72,7 +79,7 @@ const jsonLd = {
   '@type': 'LocalBusiness',
   name: 'Kianzo',
   description: 'Agencia de desarrollo web y aplicaciones móviles en Mendoza, Argentina.',
-  url: 'https://kianzo.com',
+  url: 'https://kianzo.org',
   email: 'kianzo.web@gmail.com',
   address: {
     '@type': 'PostalAddress',
