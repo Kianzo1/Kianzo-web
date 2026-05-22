@@ -6,7 +6,7 @@ const projects = [
     desc: 'Rediseño completo para empresa de gas y plomería en Mendoza. Landing moderna con galería de trabajos, servicios y contacto directo por WhatsApp.',
     tags: ['HTML', 'CSS', 'JavaScript'],
     url: '/carrizo/index.html',
-    img: '/portfolio/carrizo.jpg',
+    img: '/portfolio/carrizo.webp',
   },
   {
     slug: 'istore',
@@ -15,7 +15,7 @@ const projects = [
     desc: 'Tienda de productos Apple con experiencia premium. Catálogo interactivo, carrito, modo demo con datos de ejemplo y diseño inspirado en Apple.com.',
     tags: ['React', 'Vite', 'TypeScript'],
     url: '/istore/index.html',
-    img: '/portfolio/istore.jpg',
+    img: '/portfolio/istore.webp',
   },
 ];
 

@@ -1,10 +1,10 @@
-/* ============================================================
-   CARRIZO INSTALACIONES — style.css
-   Tipografía: Barlow Condensed (títulos) + Barlow (cuerpo)
+﻿/* ============================================================
+   CARRIZO INSTALACIONES â€” style.css
+   TipografÃ­a: Barlow Condensed (tÃ­tulos) + Barlow (cuerpo)
    Acento: #e8501a  |  Dark: #0a0c10
 ============================================================ */
 
-/* ── RESET ── */
+/* â”€â”€ RESET â”€â”€ */
 *, *::before, *::after {
   margin: 0;
   padding: 0;
@@ -48,7 +48,7 @@ h1, h2, h3 {
 
 p { font-weight: 300; line-height: 1.65; }
 
-/* ── SCROLL PROGRESS ── */
+/* â”€â”€ SCROLL PROGRESS â”€â”€ */
 .scroll-progress {
   position: fixed;
   top: 0; left: 0;
@@ -65,7 +65,7 @@ p { font-weight: 300; line-height: 1.65; }
 ============================================================ */
 .container-1 {
   position: relative;
-  background-image: url("imagenes/gas-7.jpg");
+  background-image: url("imagenes/gas-7.webp");
   background-size: cover;
   background-position: center;
   height: 100vh;
@@ -82,7 +82,7 @@ p { font-weight: 300; line-height: 1.65; }
 }
 
 
-/* ── HERO CANVAS (particle/line effect) ── */
+/* â”€â”€ HERO CANVAS (particle/line effect) â”€â”€ */
 .hero-canvas {
   position: absolute;
   inset: 0;
@@ -93,7 +93,7 @@ p { font-weight: 300; line-height: 1.65; }
   opacity: .55;
 }
 
-/* ── NAV ── */
+/* â”€â”€ NAV â”€â”€ */
 .container-header {
   position: relative;
   z-index: 10;
@@ -104,7 +104,7 @@ p { font-weight: 300; line-height: 1.65; }
   border-bottom: 1px solid rgba(255,255,255,0.06);
 }
 
-/* ── HERO LOCATION BADGE ── */
+/* â”€â”€ HERO LOCATION BADGE â”€â”€ */
 .hero-location {
   display: inline-flex;
   align-items: center;
@@ -243,7 +243,7 @@ p { font-weight: 300; line-height: 1.65; }
   background: linear-gradient(45deg,#405de6,#5b51db,#b33ab4,#e1306c,#fd1f1f);
 }
 
-/* ── HERO TEXT ── */
+/* â”€â”€ HERO TEXT â”€â”€ */
 .presentacion-inicio {
   position: relative;
   z-index: 5;
@@ -442,11 +442,11 @@ p { font-weight: 300; line-height: 1.65; }
   box-shadow: 0 24px 56px rgba(0,0,0,.6);
 }
 
-.img-servicio-1 { background-image: url("imagenes/img35.jpeg"); }
-.img-servicio-2 { background-image: url("imagenes/img52.jpeg"); }
-.img-servicio-3 { background-image: url("imagenes/img5.jpg"); }
-.img-servicio-4 { background-image: url("imagenes/img44.jpeg"); }
-.img-servicio-5 { background-image: url("imagenes/img55.jpeg"); }
+.img-servicio-1 { background-image: url("imagenes/img35.webp"); }
+.img-servicio-2 { background-image: url("imagenes/img52.webp"); }
+.img-servicio-3 { background-image: url("imagenes/img5.webp"); }
+.img-servicio-4 { background-image: url("imagenes/img44.webp"); }
+.img-servicio-5 { background-image: url("imagenes/img55.webp"); }
 
 .overlay {
   position: absolute;
@@ -534,7 +534,7 @@ p { font-weight: 300; line-height: 1.65; }
 .img-servicio-5:hover .brief-text { opacity: 1; transform: translateY(0); }
 
 /* ============================================================
-   GALERÍA TRABAJOS
+   GALERÃA TRABAJOS
 ============================================================ */
 
 
@@ -564,7 +564,7 @@ p { font-weight: 300; line-height: 1.65; }
   position: relative;
 }
 
-/* LÍNEA */
+/* LÃNEA */
 .galeria-header h2::after {
   content: "";
   width: 50px;
@@ -718,7 +718,7 @@ p { font-weight: 300; line-height: 1.65; }
    SOBRE NOSOTROS
 ============================================================ */
 /* ============================================================
-   SOBRE NOSOTROS — rediseño dark minimalista
+   SOBRE NOSOTROS â€” rediseÃ±o dark minimalista
 ============================================================ */
 .container-3 {
   background: #0f1117;
@@ -784,7 +784,7 @@ p { font-weight: 300; line-height: 1.65; }
 
 .sobre-title em { font-style: normal; color: var(--accent); }
 
-/* 3 cards — dark glass */
+/* 3 cards â€” dark glass */
 .sobre-grid {
   display: grid;
   grid-template-columns: repeat(3,1fr);
@@ -958,7 +958,7 @@ p { font-weight: 300; line-height: 1.65; }
 /* parallax band removed */
 
 /* ============================================================
-   BRIDGE STRIP — between sobre-nosotros and footer
+   BRIDGE STRIP â€” between sobre-nosotros and footer
 ============================================================ */
 .bridge-strip {
   position: relative;
@@ -1059,7 +1059,7 @@ footer {
   overflow: hidden;
 }
 
-/* línea acento superior */
+/* lÃ­nea acento superior */
 footer::before {
   content: '';
   position: absolute;
@@ -1068,7 +1068,7 @@ footer::before {
   background: linear-gradient(90deg,transparent,var(--accent) 35%,var(--accent) 65%,transparent);
 }
 
-/* glow radial detrás del logo central */
+/* glow radial detrÃ¡s del logo central */
 footer::after {
   content: '';
   position: absolute;
@@ -1107,10 +1107,10 @@ footer::after {
   border-bottom: 1px solid rgba(255,255,255,.05);
 }
 
-/* columna izquierda — nav */
+/* columna izquierda â€” nav */
 .footer-nav { display: flex; gap: 48px; }
 
-/* columna central — logo */
+/* columna central â€” logo */
 .footer-center {
   display: flex;
   flex-direction: column;
@@ -1127,7 +1127,7 @@ footer::after {
   color: rgba(255,255,255,.22);
 }
 
-/* columna derecha — slogan + redes */
+/* columna derecha â€” slogan + redes */
 .footer-brand {
   display: flex;
   flex-direction: column;
@@ -1263,7 +1263,7 @@ footer::after {
   background-image: url('imagenes/gas-8.jpg');
 }
 
-/* ── SCROLL TO TOP ── */
+/* â”€â”€ SCROLL TO TOP â”€â”€ */
 .scroll-top {
   position: fixed;
   bottom: 116px; right: 24px;
@@ -1294,7 +1294,7 @@ footer::after {
   transform: translateY(-3px);
 }
 
-/* ── WHATSAPP FLOAT ── */
+/* â”€â”€ WHATSAPP FLOAT â”€â”€ */
 .whatsapp-float {
   position: fixed;
   bottom: 28px; right: 24px;
@@ -1314,7 +1314,7 @@ footer::after {
   box-shadow: 0 8px 32px rgba(37,211,102,.65);
 }
 
-/* ── FOOTER HOURS ── */
+/* â”€â”€ FOOTER HOURS â”€â”€ */
 .footer-hours {
   font-size: .82rem;
   font-weight: 300;
@@ -1336,7 +1336,7 @@ footer::after {
 }
 
 /* ============================================================
-   RESPONSIVE — TABLET (960px)
+   RESPONSIVE â€” TABLET (960px)
 ============================================================ */
 @media (max-width: 960px) {
   .container-header { padding: 0 1.5rem; }
@@ -1420,7 +1420,7 @@ footer::after {
 }
 
 /* ============================================================
-   RESPONSIVE — MOBILE (640px)
+   RESPONSIVE â€” MOBILE (640px)
 ============================================================ */
 @media (max-width: 640px) {
   html { font-size: 16px; }
@@ -1467,9 +1467,10 @@ footer::after {
 }
 
 /* ============================================================
-   RESPONSIVE — SMALL (400px)
+   RESPONSIVE â€” SMALL (400px)
 ============================================================ */
 @media (max-width: 400px) {
   .presentacion-inicio h1 { font-size: 1.7rem; }
   .menu { width: 90%; }
 }
+
