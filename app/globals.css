@@ -142,8 +142,8 @@ nav.kianzo-nav.scrolled {
 .hero-title .w5 .word-inner { animation-delay: 1.3s; }
 .hero-title strong { font-weight: 600; color: var(--red); font-style: italic; cursor: pointer; position: relative; display: inline-block; animation: trasciendeHint 4.5s ease-in-out 2.2s infinite both; }
 .hero-title strong::before {
-  content: ''; position: absolute; top: -5%; left: -30%; width: 28%; height: 110%;
-  background: linear-gradient(110deg, transparent 20%, rgba(255,255,255,0.07) 50%, transparent 80%);
+  content: ''; position: absolute; top: 20%; left: -30%; width: 16%; height: 60%;
+  background: linear-gradient(110deg, transparent 20%, rgba(255,255,255,0.04) 50%, transparent 80%);
   transform: skewX(-8deg); pointer-events: none;
   animation: trasciendeShine 5.5s ease-in-out 2.8s infinite both;
 }
@@ -693,7 +693,7 @@ nav.kianzo-nav.scrolled {
 @keyframes rotateSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes scrollPulse { 0%, 100% { width: 40px; opacity: 1; } 50% { width: 66px; opacity: 0.5; } }
 @keyframes wordReveal { from { transform: translateY(110%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-@keyframes trasciendeHint { 0%, 100% { text-shadow: none; } 50% { text-shadow: 0 0 18px rgba(192, 0, 26, 0.22), 0 0 40px rgba(192, 0, 26, 0.07); } }
+@keyframes trasciendeHint { 0%, 100% { text-shadow: none; } 50% { text-shadow: 0 0 10px rgba(192, 0, 26, 0.12), 0 0 22px rgba(192, 0, 26, 0.04); } }
 @keyframes trasciendeShine { 0%, 65%, 100% { left: -30%; opacity: 0; } 5% { opacity: 1; } 55% { left: 120%; opacity: 0.9; } 60% { left: 120%; opacity: 0; } }
 @keyframes katanaSlash { 0% { left: -4%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { left: 106%; opacity: 0; } }
 @keyframes bladeGlow { 0% { text-shadow: none; } 30% { text-shadow: 0 0 14px rgba(192, 0, 26, 0.75), 0 0 30px rgba(192, 0, 26, 0.3); } 100% { text-shadow: 0 0 6px rgba(192, 0, 26, 0.2); } }
