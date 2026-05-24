@@ -140,7 +140,13 @@ nav.kianzo-nav.scrolled {
 .hero-title .w3 .word-inner { animation-delay: 1s; }
 .hero-title .w4 .word-inner { animation-delay: 1.15s; }
 .hero-title .w5 .word-inner { animation-delay: 1.3s; }
-.hero-title strong { font-weight: 600; color: var(--red); font-style: italic; cursor: pointer; position: relative; display: inline-block; }
+.hero-title strong { font-weight: 600; color: var(--red); font-style: italic; cursor: pointer; position: relative; display: inline-block; animation: trasciendeHint 4.5s ease-in-out 2.2s infinite both; }
+.hero-title strong::before {
+  content: ''; position: absolute; top: -5%; left: -30%; width: 28%; height: 110%;
+  background: linear-gradient(110deg, transparent 20%, rgba(255,255,255,0.07) 50%, transparent 80%);
+  transform: skewX(-8deg); pointer-events: none;
+  animation: trasciendeShine 5.5s ease-in-out 2.8s infinite both;
+}
 .hero-title strong::after {
   content: ''; position: absolute; top: -8%; bottom: -8%; left: 0;
   width: 1px;
@@ -149,6 +155,7 @@ nav.kianzo-nav.scrolled {
 }
 .hero-title strong.slash-active::after { animation: katanaSlash 0.55s cubic-bezier(0.4, 0, 0.15, 1) forwards; }
 .hero-title strong.slash-active { animation: bladeGlow 1.3s ease forwards; }
+.hero-title strong.slash-active::before { animation: none; opacity: 0; }
 .hero-sub { color: var(--gray); font-size: 1.08rem; font-weight: 300; max-width: 420px; line-height: 1.82; margin-bottom: 2.75rem; opacity: 0; transform: translateY(30px); animation: fadeUp 0.9s 1s var(--ease) forwards; }
 .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; opacity: 0; transform: translateY(20px); animation: fadeUp 0.8s 1.15s var(--ease) forwards; }
 .btn-red { background: var(--red); color: var(--white); padding: 0.9rem 2.2rem; border-radius: 2px; font-size: 0.9rem; font-weight: 500; letter-spacing: 0.04em; border: none; display: inline-block; transition: background 0.2s, transform 0.2s var(--ease); }
@@ -686,6 +693,8 @@ nav.kianzo-nav.scrolled {
 @keyframes rotateSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes scrollPulse { 0%, 100% { width: 40px; opacity: 1; } 50% { width: 66px; opacity: 0.5; } }
 @keyframes wordReveal { from { transform: translateY(110%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes trasciendeHint { 0%, 100% { text-shadow: none; } 50% { text-shadow: 0 0 18px rgba(192, 0, 26, 0.22), 0 0 40px rgba(192, 0, 26, 0.07); } }
+@keyframes trasciendeShine { 0%, 65%, 100% { left: -30%; opacity: 0; } 5% { opacity: 1; } 55% { left: 120%; opacity: 0.9; } 60% { left: 120%; opacity: 0; } }
 @keyframes katanaSlash { 0% { left: -4%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { left: 106%; opacity: 0; } }
 @keyframes bladeGlow { 0% { text-shadow: none; } 30% { text-shadow: 0 0 14px rgba(192, 0, 26, 0.75), 0 0 30px rgba(192, 0, 26, 0.3); } 100% { text-shadow: 0 0 6px rgba(192, 0, 26, 0.2); } }
 @keyframes kanjiBreath { 0%, 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); } 50% { opacity: 0.55; transform: translate(-50%, -50%) scale(1.015); } }
