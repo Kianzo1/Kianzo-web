@@ -1,40 +1,46 @@
-const projects = [
-  {
-    slug: 'carrizo',
-    title: 'Carrizo Instalaciones',
-    category: 'Web Institucional',
-    desc: 'Rediseño completo para empresa de gas y plomería en Mendoza. Landing moderna con galería de trabajos, servicios y contacto directo por WhatsApp.',
-    tags: ['HTML', 'CSS', 'JavaScript'],
-    url: '/carrizo/index.html',
-    img: '/portfolio/carrizo.webp',
-  },
-  {
-    slug: 'istore',
-    title: 'iStore',
-    category: 'E-commerce · Demo',
-    desc: 'Tienda de productos Apple con experiencia premium. Catálogo interactivo, carrito, modo demo con datos de ejemplo y diseño inspirado en Apple.com.',
-    tags: ['React', 'Vite', 'TypeScript'],
-    url: '/istore/index.html',
-    img: '/portfolio/istore.webp',
-  },
-];
+'use client';
+
+import { useLang } from '@/context/LanguageContext';
 
 export default function Portfolio() {
+  const { t } = useLang();
+
+  const projects = [
+    {
+      slug: 'carrizo',
+      title: 'Carrizo Instalaciones',
+      category: t('port1_cat'),
+      desc: t('port1_desc'),
+      tags: ['HTML', 'CSS', 'JavaScript'],
+      url: '/carrizo/index.html',
+      img: '/portfolio/carrizo.webp',
+    },
+    {
+      slug: 'istore',
+      title: 'iStore',
+      category: t('port2_cat'),
+      desc: t('port2_desc'),
+      tags: ['React', 'Vite', 'TypeScript'],
+      url: '/istore/index.html',
+      img: '/portfolio/istore.webp',
+    },
+  ];
+
   return (
     <section id="portfolio" className="kianzo-section portfolio-section">
       <div className="port-header">
         <div data-reveal="left">
           <div className="sec-eyebrow">
             <div className="sec-line" />
-            <span className="sec-tag">Portfolio</span>
+            <span className="sec-tag">{t('port_tag')}</span>
             <span className="sec-tag-ja">作品集</span>
           </div>
           <h2 className="sec-title">
-            Nuestros <strong>trabajos</strong>
+            {t('port_title_1')} <strong>{t('port_title_strong')}</strong>
           </h2>
         </div>
         <p className="svc-desc" data-reveal="right" style={{ maxWidth: 300 }}>
-          Proyectos reales, clientes reales. Cada trabajo habla por nosotros.
+          {t('port_desc')}
         </p>
       </div>
 
@@ -51,7 +57,7 @@ export default function Portfolio() {
             <div className="port-card-img">
               <img src={p.img} alt={p.title} loading="lazy" />
               <div className="port-card-overlay">
-                <span className="port-card-cta">Ver proyecto →</span>
+                <span className="port-card-cta">{t('port_cta')}</span>
               </div>
             </div>
             <div className="port-card-body">

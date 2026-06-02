@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { stats } from '@/lib/data';
+import { useLang } from '@/context/LanguageContext';
 
 function Counter({ value }: { value: string }) {
   // Parse ONCE — memoize so the effect doesn't re-fire on every render
@@ -55,7 +55,15 @@ function Counter({ value }: { value: string }) {
 }
 
 export default function Stats() {
+  const { t } = useLang();
   const rowRef = useRef<HTMLDivElement>(null);
+
+  const stats = [
+    { value: '+5', ja: 'プロジェクト', label: t('stat1_label') },
+    { value: '48h', ja: '応答時間',    label: t('stat2_label') },
+    { value: '7',   ja: '納期',       label: t('stat3_label') },
+    { value: '100%',ja: '満足度',     label: t('stat4_label') },
+  ];
 
   useEffect(() => {
     const row = rowRef.current;

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { useLang } from '@/context/LanguageContext';
 
 const MountainSVG = () => (
   <svg
@@ -53,6 +54,7 @@ const SunOrb = ({ onClick }: { onClick: () => void }) => (
 );
 
 export default function Hero() {
+  const { t } = useLang();
   const parallaxRef = useRef<HTMLDivElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
   const kanji1Ref = useRef<HTMLDivElement>(null);
@@ -76,7 +78,6 @@ export default function Hero() {
     let fallRaf = 0;
     let fallStarted = false;
 
-    // ── Parallax del fondo (bg, glow, kanji) ──
     const applyParallax = () => {
       parallaxPending = false;
       const sy = window.scrollY;
@@ -90,103 +91,65 @@ export default function Hero() {
         kanji2Ref.current.style.transform = `translate3d(${-mx * 25 - sy * 0.05}px, ${-my * 20 - sy * 0.2}px, 0)`;
     };
 
-    // ── Física: caída libre → rebotes → rueda → desaparece ──
     const startFall = () => {
       if (fallStarted) return;
       fallStarted = true;
-
-      // Quitar bobbing CSS para que la física tome el control
       const sunEl = sunRef.current?.querySelector('.hero-sun') as HTMLElement | null;
       if (sunEl) sunEl.style.animation = 'none';
 
-      const GRAVITY        = 0.58;  // px/frame² — caída lenta y cinématica
-      const RESTITUTION    = 0.55;  // energía retenida en cada rebote (55%)
-      const SLOPE_DY_PER_DX = 1.9; // ladera: por cada 1px derecha, baja 1.9px
-      const MIN_BOUNCE_VY  = 2.2;  // umbral para dejar de rebotar
+      const GRAVITY = 0.58;
+      const RESTITUTION = 0.55;
+      const SLOPE_DY_PER_DX = 1.9;
+      const MIN_BOUNCE_VY = 2.2;
 
       let vx = -0.3, vy = 0;
-      let x  = 0,    y  = 0;
-      let rotation   = 0;
-      let alpha      = 1;
-      let bounces    = 0;
-      // Referencia a la superficie de la ladera (se establece en el primer contacto)
-      let slopeY0    = 0;  // y del slope en x = contactX
-      let contactX   = 0;
+      let x = 0, y = 0;
+      let rotation = 0;
+      let alpha = 1;
+      let bounces = 0;
+      let slopeY0 = 0;
+      let contactX = 0;
       type Phase = 'fall' | 'bounce' | 'roll' | 'fade';
       let phase: Phase = 'fall';
 
-      // Superficie inclinada en la posición x actual
       const slopeAt = () => slopeY0 + (x - contactX) * SLOPE_DY_PER_DX;
 
       const tick = () => {
-        // 1. Actualizar velocidades
         vy += GRAVITY;
-        if (phase === 'fall') vx -= 0.025; // deriva izquierda hacia la ladera
-
-        // 2. Actualizar posición
+        if (phase === 'fall') vx -= 0.025;
         x += vx;
         y += vy;
 
-        // 3. Transiciones de fase
         if (phase === 'fall') {
           if (y >= 215) {
-            // Primer impacto con la ladera
-            contactX = x;
-            slopeY0  = y;
-            bounces  = 1;
-            vy = -Math.abs(vy) * RESTITUTION; // rebote hacia arriba
-            vx = 1.8;                          // la ladera redirige a la derecha
-            phase = 'bounce';
+            contactX = x; slopeY0 = y; bounces = 1;
+            vy = -Math.abs(vy) * RESTITUTION; vx = 1.8; phase = 'bounce';
           }
-
         } else if (phase === 'bounce') {
           const surface = slopeAt();
           if (y >= surface && vy > 0) {
-            // Tocó la ladera otra vez
-            y = surface; // anclar a la superficie
-            bounces++;
+            y = surface; bounces++;
             if (Math.abs(vy) < MIN_BOUNCE_VY || bounces > 4) {
-              // Rebotes agotados → empieza a rodar
-              phase = 'roll';
-              vy = Math.abs(vy) + 1.5;
-              vx = vy / SLOPE_DY_PER_DX;
+              phase = 'roll'; vy = Math.abs(vy) + 1.5; vx = vy / SLOPE_DY_PER_DX;
             } else {
-              // Otro rebote, cada vez más pequeño
-              vy = -Math.abs(vy) * RESTITUTION;
-              vx = Math.abs(vx) * 1.05 + 0.4; // avanza un poco más a la derecha
+              vy = -Math.abs(vy) * RESTITUTION; vx = Math.abs(vx) * 1.05 + 0.4;
             }
           }
-
         } else if (phase === 'roll') {
-          // Rueda: vx determinado por ángulo de ladera
-          vy += GRAVITY * 0.28;
-          vx  = vy / SLOPE_DY_PER_DX;
+          vy += GRAVITY * 0.28; vx = vy / SLOPE_DY_PER_DX;
           if (y > 440) phase = 'fade';
-
         } else {
-          // Desvanece mientras sigue rodando
-          vy += GRAVITY * 0.10;
-          vx  = vy / SLOPE_DY_PER_DX;
+          vy += GRAVITY * 0.10; vx = vy / SLOPE_DY_PER_DX;
           alpha -= 0.028;
-          if (alpha <= 0) {
-            if (sunRef.current) sunRef.current.style.opacity = '0';
-            return; // fin
-          }
-          if (sunRef.current)
-            sunRef.current.style.opacity = alpha.toFixed(3);
+          if (alpha <= 0) { if (sunRef.current) sunRef.current.style.opacity = '0'; return; }
+          if (sunRef.current) sunRef.current.style.opacity = alpha.toFixed(3);
         }
 
-        // Rotación física: ángulo = distancia_horizontal / circunferencia × 360°
         rotation += (vx / CIRCUMFERENCE) * 360;
-
-        if (sunRef.current)
-          sunRef.current.style.transform = `translate3d(${x + mx * 4}px, ${y + my * 2}px, 0)`;
-        if (disc)
-          disc.style.transform = `rotate(${rotation}deg)`;
-
+        if (sunRef.current) sunRef.current.style.transform = `translate3d(${x + mx * 4}px, ${y + my * 2}px, 0)`;
+        if (disc) disc.style.transform = `rotate(${rotation}deg)`;
         fallRaf = requestAnimationFrame(tick);
       };
-
       fallRaf = requestAnimationFrame(tick);
     };
 
@@ -196,60 +159,45 @@ export default function Hero() {
     };
     const onMouse = (e: MouseEvent) => {
       const r = section.getBoundingClientRect();
-      mx = (e.clientX / r.width  - 0.5) * 2;
+      mx = (e.clientX / r.width - 0.5) * 2;
       my = ((e.clientY - r.top) / r.height - 0.5) * 2;
       if (!parallaxPending) { parallaxPending = true; parallaxRaf = requestAnimationFrame(applyParallax); }
     };
 
-    window.addEventListener('scroll',    onScroll, { passive: true });
-    window.addEventListener('mousemove', onMouse,  { passive: true });
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('mousemove', onMouse, { passive: true });
     applyParallax();
 
     return () => {
-      window.removeEventListener('scroll',    onScroll);
+      window.removeEventListener('scroll', onScroll);
       window.removeEventListener('mousemove', onMouse);
       cancelAnimationFrame(parallaxRaf);
       cancelAnimationFrame(fallRaf);
     };
   }, []);
 
-  // Katana slash on click
   const handleSlash = () => {
     const el = strongRef.current;
     if (!el) return;
     el.classList.remove('slash-active');
     void el.offsetWidth;
     el.classList.add('slash-active');
-    try {
-      const a = new Audio('/sounds/sword.mp3');
-      a.volume = 0.35;
-      void a.play().catch(() => {});
-    } catch {}
+    try { const a = new Audio('/sounds/sword.mp3'); a.volume = 0.35; void a.play().catch(() => {}); } catch {}
   };
 
-  // Sun click → pro rotation + glow pulse + sound
   const handleSunClick = () => {
     const el = sunRef.current;
     if (!el) return;
     el.classList.remove('hero-sun-active');
     void el.offsetWidth;
     el.classList.add('hero-sun-active');
-    try {
-      const a = new Audio('/sounds/sword.mp3');
-      a.volume = 0.2;
-      a.playbackRate = 1.6;
-      void a.play().catch(() => {});
-    } catch {}
+    try { const a = new Audio('/sounds/sword.mp3'); a.volume = 0.2; a.playbackRate = 1.6; void a.play().catch(() => {}); } catch {}
   };
 
   return (
     <section ref={sectionRef} className="hero" id="hero">
       <div className="hero-bg-parallax" ref={parallaxRef}>
-        <svg
-          viewBox="0 0 1440 900"
-          preserveAspectRatio="xMidYMid slice"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+        <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <radialGradient id="gR" cx="60%" cy="40%" r="50%">
               <stop offset="0%" stopColor="#C0001A" stopOpacity=".1" />
@@ -272,25 +220,22 @@ export default function Hero() {
       <div className="hero-glow" ref={glowRef} />
 
       <div className="hero-left">
-        <div className="hero-tag">Desarrollo digital · Mendoza, Argentina</div>
+        <div className="hero-tag">{t('hero_tag')}</div>
         <h1 className="hero-title">
-          <span className="word w1"><span className="word-inner">Diseño</span></span>{' '}
-          <span className="word w2"><span className="word-inner">que</span></span>
+          <span className="word w1"><span className="word-inner">{t('hero_line1')}</span></span>{' '}
+          <span className="word w2"><span className="word-inner">{t('hero_line2')}</span></span>
           <br />
           <strong ref={strongRef} onClick={handleSlash}>
-            <span className="word w3"><span className="word-inner">trasciende.</span></span>
+            <span className="word w3"><span className="word-inner">{t('hero_strong')}</span></span>
           </strong>
           <br />
-          <span className="word w4"><span className="word-inner">Código</span></span>{' '}
-          <span className="word w5"><span className="word-inner">que funciona.</span></span>
+          <span className="word w4"><span className="word-inner">{t('hero_line4')}</span></span>{' '}
+          <span className="word w5"><span className="word-inner">{t('hero_line5')}</span></span>
         </h1>
-        <p className="hero-sub">
-          Páginas web y aplicaciones móviles construidas con precisión y disciplina.
-          Cada proyecto, una obra.
-        </p>
+        <p className="hero-sub">{t('hero_sub')}</p>
         <div className="hero-btns">
-          <a href="#servicios" className="btn-red">Ver servicios</a>
-          <a href="#contacto" className="btn-outline">Cotizá gratis →</a>
+          <a href="#servicios" className="btn-red">{t('hero_btn_primary')}</a>
+          <a href="#contacto" className="btn-outline">{t('hero_btn_secondary')}</a>
         </div>
       </div>
 
@@ -300,7 +245,6 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Sun lives at section level — not clipped by hero-right overflow */}
       <div className="hero-sun-wrap" ref={sunRef}>
         <SunOrb onClick={handleSunClick} />
       </div>

@@ -1,3 +1,7 @@
+'use client';
+
+import { useLang } from '@/context/LanguageContext';
+
 const InstagramIcon = () => (
   <svg
     viewBox="0 0 24 24"
@@ -26,12 +30,13 @@ const WhatsappIcon = () => (
 );
 
 export default function Footer() {
+  const { t } = useLang();
   return (
     <footer className="kianzo-footer">
       <a href="#hero" className="foot-logo">
         Kianzo<span>.</span>
       </a>
-      <p>© 2025 Kianzo · Desarrollo Web &amp; Apps · Mendoza, Argentina</p>
+      <p>{t('footer_copy')}</p>
       <div className="social-links">
         <a
           href="https://instagram.com/kianzo.ar"

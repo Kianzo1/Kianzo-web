@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { useLang } from '@/context/LanguageContext';
 
 const SCRAMBLE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ01キアンゾ';
 const ORIGINAL = 'Kianzo';
@@ -48,6 +49,7 @@ const NavLogo = () => (
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const { lang, setLang, t } = useLang();
   const { ref: logoRef, trigger: scrambleLogo } = useScramble();
 
   useEffect(() => {
@@ -72,10 +74,20 @@ export default function Navbar() {
           </div>
         </a>
         <ul className="nav-links">
-          <li><a href="#servicios">Servicios</a></li>
-          <li><a href="#proceso">Proceso</a></li>
-          <li><a href="#nosotros">Nosotros</a></li>
-          <li><a href="#contacto" className="nav-cta">Hablemos</a></li>
+          <li><a href="#servicios">{t('nav_servicios')}</a></li>
+          <li><a href="#proceso">{t('nav_proceso')}</a></li>
+          <li><a href="#nosotros">{t('nav_nosotros')}</a></li>
+          <li><a href="#contacto" className="nav-cta">{t('nav_cta')}</a></li>
+          <li>
+            <button className="lang-btn" onClick={() => setLang(lang === 'ES' ? 'EN' : 'ES')} aria-label="Cambiar idioma">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                <circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10A15.3 15.3 0 0 1 12 2z"/>
+              </svg>
+              <span className="lang-active">{lang}</span>
+              <span className="lang-sep" />
+              <span className="lang-inactive">{lang === 'ES' ? 'EN' : 'ES'}</span>
+            </button>
+          </li>
         </ul>
         <button
           className={`nav-hamburger${drawerOpen ? ' open' : ''}`}
@@ -88,10 +100,10 @@ export default function Navbar() {
       </nav>
 
       <div className={`nav-drawer${drawerOpen ? ' open' : ''}`}>
-        <a href="#servicios" onClick={close}>Servicios</a>
-        <a href="#proceso" onClick={close}>Proceso</a>
-        <a href="#nosotros" onClick={close}>Nosotros</a>
-        <a href="#contacto" className="drawer-cta" onClick={close}>Hablemos</a>
+        <a href="#servicios" onClick={close}>{t('nav_servicios')}</a>
+        <a href="#proceso" onClick={close}>{t('nav_proceso')}</a>
+        <a href="#nosotros" onClick={close}>{t('nav_nosotros')}</a>
+        <a href="#contacto" className="drawer-cta" onClick={close}>{t('nav_cta')}</a>
       </div>
     </>
   );
