@@ -1,65 +1,42 @@
-const values = [
-  {
-    jp: '改',
-    title: 'Kaizen · Mejora continua',
-    desc: 'Cada proyecto nos hace mejores. Nunca entregamos algo con lo que no estamos conformes.',
-  },
-  {
-    jp: '匠',
-    title: 'Monozukuri · El arte de hacer',
-    desc: 'Tratamos cada web como una obra. No usamos templates, construimos desde cero.',
-  },
-  {
-    jp: '心',
-    title: 'Omotenashi · Servicio total',
-    desc: 'Acompañamos al cliente desde la idea hasta el lanzamiento y más allá.',
-  },
-  {
-    jp: '道',
-    title: 'Comunicación clara',
-    desc: 'Sin tecnicismos. Te explicamos todo de forma simple y honesta.',
-  },
-];
+'use client';
+
+import { useLang } from '@/context/LanguageContext';
+import ArtLayer from '@/components/ui/ArtLayer';
 
 export default function About() {
+  const { t } = useLang();
+
+  const values = [
+    { jp: '改', title: t('val1_title'), desc: t('val1_desc') },
+    { jp: '匠', title: t('val2_title'), desc: t('val2_desc') },
+    { jp: '心', title: t('val3_title'), desc: t('val3_desc') },
+    { jp: '道', title: t('val4_title'), desc: t('val4_desc') },
+  ];
+
   return (
     <section id="nosotros" className="kianzo-section nosotros-section">
+      <ArtLayer variant="hannya" />
       <div className="nosotros-content">
         <div data-reveal="up">
           <div className="sec-eyebrow">
             <div className="sec-line" />
-            <span className="sec-tag">Nosotros</span>
+            <span className="sec-tag">{t('about_tag')}</span>
             <span className="sec-tag-ja">私たちについて</span>
           </div>
           <h2 className="sec-title">
-            Dos desarrolladores,
-            <br />
-            <strong>un objetivo.</strong>
+            {t('about_title_1')}<br /><strong>{t('about_title_2')}</strong>
           </h2>
         </div>
         <div className="about-grid">
           <div className="about-text" data-reveal="left">
             <div className="about-kanji-bg">匠 道</div>
-            <p>
-              Somos un equipo de dos desarrolladores de software de Mendoza,
-              Argentina. Nos especializamos en construir páginas web y
-              aplicaciones móviles que combinan diseño de calidad con código
-              sólido.
-            </p>
-            <p>
-              Nuestra inspiración viene de la filosofía japonesa del{' '}
-              <em>Kaizen</em>: mejora continua, atención al detalle y
-              compromiso con la excelencia en cada proyecto que tomamos.
-            </p>
-            <p>
-              Estamos en constante aprendizaje — actualmente sumando
-              desarrollo de apps móviles a nuestro stack para ofrecer
-              soluciones digitales completas.
-            </p>
+            <p>{t('about_p1')}</p>
+            <p>{t('about_p2')}</p>
+            <p>{t('about_p3')}</p>
           </div>
           <div className="values" data-reveal="right">
             {values.map((v) => (
-              <div className="val" key={v.title}>
+              <div className="val" key={v.jp}>
                 <div className="val-jp">{v.jp}</div>
                 <div className="val-body">
                   <h4>{v.title}</h4>

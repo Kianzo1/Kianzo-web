@@ -10,30 +10,33 @@ import {
   UserCircle,
 } from '@phosphor-icons/react';
 import { useEffect, useMemo, useState } from 'react';
+import { useLang } from '@/context/LanguageContext';
+import type { TranslationKey } from '@/lib/translations';
 
 const features = [
-  { Icon: ChatCircleDots, title: 'Atención al instante' },
-  { Icon: CalendarBlank, title: 'Agenda citas sola' },
-  { Icon: ShoppingBagOpen, title: 'Toma pedidos' },
-  { Icon: Megaphone, title: 'Campañas masivas' },
-  { Icon: ChartLineUp, title: 'Reportes en vivo' },
-  { Icon: UserCircle, title: 'Humano de respaldo' },
-] as const;
+  { Icon: ChatCircleDots, key: 'auto_feat1' as TranslationKey },
+  { Icon: CalendarBlank, key: 'auto_feat2' as TranslationKey },
+  { Icon: ShoppingBagOpen, key: 'auto_feat3' as TranslationKey },
+  { Icon: Megaphone, key: 'auto_feat4' as TranslationKey },
+  { Icon: ChartLineUp, key: 'auto_feat5' as TranslationKey },
+  { Icon: UserCircle, key: 'auto_feat6' as TranslationKey },
+];
 
 const chatScript = [
-  { from: 'user', text: 'Hola, quiero reservar mesa para 4' },
-  { from: 'bot', text: '¡Hola! Claro. ¿Para qué día?' },
-  { from: 'user', text: 'Viernes a las 20hs' },
-  { from: 'bot', text: 'Perfecto. ¿Interior o terraza?' },
-  { from: 'user', text: 'Terraza' },
-  { from: 'bot', text: '✓ Reservado · vie 20:00 · terraza · 4 personas' },
-] as const;
+  { from: 'user', key: 'auto_chat1' as TranslationKey },
+  { from: 'bot', key: 'auto_chat2' as TranslationKey },
+  { from: 'user', key: 'auto_chat3' as TranslationKey },
+  { from: 'bot', key: 'auto_chat4' as TranslationKey },
+  { from: 'user', key: 'auto_chat5' as TranslationKey },
+  { from: 'bot', key: 'auto_chat6' as TranslationKey },
+];
 
 const hourlyData = [4, 2, 1, 1, 2, 5, 12, 28, 45, 62, 78, 84, 92, 88, 73, 65, 58, 71, 86, 95, 82, 54, 32, 14];
 
 // ─── CHART ───────────────────────────────────────────────────
 
 function ActivityChart() {
+  const { t } = useLang();
   const W = 600;
   const H = 220;
   const PAD = { top: 20, right: 8, bottom: 28, left: 8 };
@@ -69,12 +72,12 @@ function ActivityChart() {
     <div className="auto-chart">
       <div className="auto-chart-head">
         <div>
-          <p className="auto-eyebrow-mini">Actividad · 24h</p>
+          <p className="auto-eyebrow-mini">{t('auto_chart_eyebrow')}</p>
           <p className="auto-big-num">
-            1.247 <span>conversaciones</span>
+            1.247 <span>{t('auto_chart_num_label')}</span>
           </p>
         </div>
-        <p className="auto-chart-unit">mensajes / hora</p>
+        <p className="auto-chart-unit">{t('auto_chart_unit')}</p>
       </div>
 
       <svg viewBox={`0 0 ${W} ${H}`} className="auto-chart-svg" preserveAspectRatio="none">
@@ -133,8 +136,8 @@ function ActivityChart() {
       </svg>
 
       <div className="auto-chart-foot">
-        <span>Pico <strong>19:00</strong></span>
-        <span>Promedio <strong>47 / h</strong></span>
+        <span>{t('auto_chart_peak')} <strong>19:00</strong></span>
+        <span>{t('auto_chart_avg')} <strong>47 / h</strong></span>
       </div>
     </div>
   );
@@ -143,6 +146,7 @@ function ActivityChart() {
 // ─── CHAT ────────────────────────────────────────────────────
 
 function ChatMock() {
+  const { t } = useLang();
   const [count, setCount] = useState(1);
   useEffect(() => {
     const id = setInterval(() => {
@@ -159,7 +163,7 @@ function ChatMock() {
         <div className="auto-chat-meta">
           <p className="auto-chat-name">Kianzo Bot</p>
           <p className="auto-chat-status">
-            <span className="auto-chat-dot" /> en línea
+            <span className="auto-chat-dot" /> {t('auto_bot_status')}
           </p>
         </div>
       </div>
@@ -173,7 +177,7 @@ function ChatMock() {
               transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
               className={`auto-msg auto-msg-${m.from}`}
             >
-              {m.text}
+              {t(m.key)}
               {m.from === 'user' && <span className="auto-msg-check">✓✓</span>}
             </motion.div>
           ))}
@@ -186,22 +190,22 @@ function ChatMock() {
 // ─── MAIN ────────────────────────────────────────────────────
 
 export default function AutomationSection() {
+  const { t } = useLang();
   return (
     <section id="automatizacion" className="kianzo-section automation-section">
       <div className="svc-header">
         <div data-reveal="left">
           <div className="sec-eyebrow">
             <div className="sec-line" />
-            <span className="sec-tag">Automatización</span>
+            <span className="sec-tag">{t('auto_tag')}</span>
             <span className="sec-tag-ja">自動化</span>
           </div>
           <h2 className="sec-title">
-            Tu negocio trabaja <strong>mientras dormís</strong>
+            {t('auto_title_1')} <strong>{t('auto_title_strong')}</strong>
           </h2>
         </div>
         <p className="svc-desc" data-reveal="right">
-          Un asistente inteligente en WhatsApp que atiende, reserva y vende por
-          vos — las 24 horas.
+          {t('auto_desc')}
         </p>
       </div>
 
@@ -212,23 +216,20 @@ export default function AutomationSection() {
 
       <div className="auto-features-grid" data-reveal="up">
         {features.map((f) => (
-          <div className="auto-feature" key={f.title}>
+          <div className="auto-feature" key={f.key}>
             <f.Icon weight="thin" size={22} />
-            <span>{f.title}</span>
+            <span>{t(f.key)}</span>
           </div>
         ))}
       </div>
 
       <div className="combo-bar" data-reveal="blur">
         <div>
-          <h3>¿Lo aplicamos a tu negocio?</h3>
-          <p>
-            Quince minutos. Te mostramos el bot funcionando con un caso real de
-            tu rubro — sin costo, sin compromiso.
-          </p>
+          <h3>{t('auto_combo_title')}</h3>
+          <p>{t('auto_combo_desc')}</p>
         </div>
         <a href="#contacto" className="combo-pill">
-          Empezar →
+          {t('auto_combo_pill')}
         </a>
       </div>
     </section>

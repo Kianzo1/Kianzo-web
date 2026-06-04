@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Cormorant_Garamond, Noto_Sans_JP, Space_Grotesk } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/next';
+import Providers from '@/components/Providers';
 import './globals.css';
 
 const serif = Cormorant_Garamond({
@@ -139,7 +140,7 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-black text-white antialiased">
-        {children}
+        <Providers>{children}</Providers>
         <Analytics />
       </body>
     </html>

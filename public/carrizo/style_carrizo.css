@@ -1,10 +1,10 @@
-﻿/* ============================================================
+/* ============================================================
    CARRIZO INSTALACIONES — style.css
    Tipografía: Barlow Condensed (títulos) + Barlow (cuerpo)
    Acento: #e8501a  |  Dark: #0a0c10
 ============================================================ */
 
-/* â”€â”€ RESET â”€â”€ */
+/* ── RESET ── */
 *, *::before, *::after {
   margin: 0;
   padding: 0;
@@ -48,7 +48,7 @@ h1, h2, h3 {
 
 p { font-weight: 300; line-height: 1.65; }
 
-/* â”€â”€ SCROLL PROGRESS â”€â”€ */
+/* ── SCROLL PROGRESS ── */
 .scroll-progress {
   position: fixed;
   top: 0; left: 0;
@@ -65,12 +65,11 @@ p { font-weight: 300; line-height: 1.65; }
 ============================================================ */
 .container-1 {
   position: relative;
-  background-image: url("imagenes/gas-7.webp");
+  background-image: url("imagenes/gas-7.jpg");
   background-size: cover;
   background-position: center;
   height: 100vh;
   min-height: 600px;
-  overflow: hidden;
 }
 
 .container-1::before {
@@ -82,7 +81,7 @@ p { font-weight: 300; line-height: 1.65; }
 }
 
 
-/* â”€â”€ HERO CANVAS (particle/line effect) â”€â”€ */
+/* ── HERO CANVAS (particle/line effect) ── */
 .hero-canvas {
   position: absolute;
   inset: 0;
@@ -93,7 +92,7 @@ p { font-weight: 300; line-height: 1.65; }
   opacity: .55;
 }
 
-/* â”€â”€ NAV â”€â”€ */
+/* ── NAV ── */
 .container-header {
   position: relative;
   z-index: 10;
@@ -101,10 +100,12 @@ p { font-weight: 300; line-height: 1.65; }
   align-items: center;
   justify-content: space-between;
   padding: 0 3rem;
+  height: 105px;
+  overflow: visible;
   border-bottom: 1px solid rgba(255,255,255,0.06);
 }
 
-/* â”€â”€ HERO LOCATION BADGE â”€â”€ */
+/* ── HERO LOCATION BADGE ── */
 .hero-location {
   display: inline-flex;
   align-items: center;
@@ -120,18 +121,33 @@ p { font-weight: 300; line-height: 1.65; }
 .hero-location svg { width: 13px; height: 13px; color: var(--accent); flex-shrink: 0; }
 
 .img-logo {
-  width: 148px;
-  height: 148px;
+  width: 200px;
+  height: 200px;
   flex-shrink: 0;
   transition: width .4s var(--ease), height .4s var(--ease);
+}
+
+.img-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  animation: firePulse 3.5s ease-in-out infinite;
+}
+
+@keyframes firePulse {
+  0%   { filter: drop-shadow(0 2px 8px rgba(0,0,0,.5))  drop-shadow(0 0 4px rgba(255,90,0,.3))   drop-shadow(0 0 10px rgba(255,50,0,.12)); }
+  30%  { filter: drop-shadow(0 2px 8px rgba(0,0,0,.5))  drop-shadow(0 0 9px rgba(255,135,0,.55)) drop-shadow(0 0 20px rgba(255,70,0,.25)) drop-shadow(0 0 34px rgba(220,30,0,.1)); }
+  55%  { filter: drop-shadow(0 2px 8px rgba(0,0,0,.5))  drop-shadow(0 0 12px rgba(255,150,0,.6)) drop-shadow(0 0 26px rgba(255,80,0,.28)) drop-shadow(0 0 42px rgba(220,35,0,.12)); }
+  80%  { filter: drop-shadow(0 2px 8px rgba(0,0,0,.5))  drop-shadow(0 0 7px rgba(255,110,0,.42)) drop-shadow(0 0 16px rgba(255,60,0,.2))  drop-shadow(0 0 28px rgba(210,25,0,.09)); }
+  100% { filter: drop-shadow(0 2px 8px rgba(0,0,0,.5))  drop-shadow(0 0 4px rgba(255,90,0,.3))   drop-shadow(0 0 10px rgba(255,50,0,.12)); }
 }
 
 .img-logo img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 2px 10px rgba(0,0,0,.55)) drop-shadow(0 0 8px rgba(232,80,26,.3)); }
 
 /* logo encoge al scrollear */
 .nav--scrolled .img-logo {
-  width: 72px;
-  height: 72px;
+  width: 90px;
+  height: 90px;
 }
 
 /* desktop nav */
@@ -238,12 +254,12 @@ p { font-weight: 300; line-height: 1.65; }
 .redes-inicio .icon-content a:hover { color: #fff; }
 .redes-inicio .icon-content a:hover .filled { height: 100%; }
 .redes-inicio .icon-content a[data-social="whatsapp"] .filled { background: #25d366; }
-.redes-inicio .icon-content a[data-social="facebook"] .filled  { background: #1877f2; }
+.redes-inicio .icon-content a[data-social="tiktok"] .filled    { background: #010101; }
 .redes-inicio .icon-content a[data-social="instagram"] .filled {
   background: linear-gradient(45deg,#405de6,#5b51db,#b33ab4,#e1306c,#fd1f1f);
 }
 
-/* â”€â”€ HERO TEXT â”€â”€ */
+/* ── HERO TEXT ── */
 .presentacion-inicio {
   position: relative;
   z-index: 5;
@@ -442,11 +458,11 @@ p { font-weight: 300; line-height: 1.65; }
   box-shadow: 0 24px 56px rgba(0,0,0,.6);
 }
 
-.img-servicio-1 { background-image: url("imagenes/img35.webp"); }
-.img-servicio-2 { background-image: url("imagenes/img52.webp"); }
-.img-servicio-3 { background-image: url("imagenes/img5.webp"); }
-.img-servicio-4 { background-image: url("imagenes/img44.webp"); }
-.img-servicio-5 { background-image: url("imagenes/img55.webp"); }
+.img-servicio-1 { background-image: url("imagenes/img35.jpeg"); }
+.img-servicio-2 { background-image: url("imagenes/img52.jpeg"); }
+.img-servicio-3 { background-image: url("imagenes/img5.jpg"); }
+.img-servicio-4 { background-image: url("imagenes/img44.jpeg"); }
+.img-servicio-5 { background-image: url("imagenes/img55.jpeg"); }
 
 .overlay {
   position: absolute;
@@ -534,7 +550,7 @@ p { font-weight: 300; line-height: 1.65; }
 .img-servicio-5:hover .brief-text { opacity: 1; transform: translateY(0); }
 
 /* ============================================================
-   GALERÃA TRABAJOS
+   GALERÍA TRABAJOS
 ============================================================ */
 
 
@@ -564,7 +580,7 @@ p { font-weight: 300; line-height: 1.65; }
   position: relative;
 }
 
-/* LÃNEA */
+/* LÍNEA */
 .galeria-header h2::after {
   content: "";
   width: 50px;
@@ -1193,7 +1209,7 @@ footer::after {
 }
 
 .footer-copy {
-  font-size: .7rem;
+  font-size: .95rem;
   font-weight: 300;
   color: rgba(255,255,255,.18);
   text-align: center;
@@ -1236,7 +1252,7 @@ footer::after {
 }
 .social-btn:hover::before { opacity: 1; }
 .social-btn[data-social="whatsapp"]::before  { background: #25d366; }
-.social-btn[data-social="facebook"]::before  { background: #1877f2; }
+.social-btn[data-social="tiktok"]::before    { background: #010101; }
 .social-btn[data-social="instagram"]::before { background: radial-gradient(circle at 30% 30%,#f58529,#dd2a7b,#8134af); }
 .social-btn svg { position: relative; z-index: 1; }
 
@@ -1263,7 +1279,7 @@ footer::after {
   background-image: url('imagenes/gas-8.jpg');
 }
 
-/* â”€â”€ SCROLL TO TOP â”€â”€ */
+/* ── SCROLL TO TOP ── */
 .scroll-top {
   position: fixed;
   bottom: 116px; right: 24px;
@@ -1294,7 +1310,7 @@ footer::after {
   transform: translateY(-3px);
 }
 
-/* â”€â”€ WHATSAPP FLOAT â”€â”€ */
+/* ── WHATSAPP FLOAT ── */
 .whatsapp-float {
   position: fixed;
   bottom: 28px; right: 24px;
@@ -1314,7 +1330,7 @@ footer::after {
   box-shadow: 0 8px 32px rgba(37,211,102,.65);
 }
 
-/* â”€â”€ FOOTER HOURS â”€â”€ */
+/* ── FOOTER HOURS ── */
 .footer-hours {
   font-size: .82rem;
   font-weight: 300;
@@ -1340,8 +1356,8 @@ footer::after {
 ============================================================ */
 @media (max-width: 960px) {
   .container-header { padding: 0 1.5rem; }
-  .img-logo { width: 120px; height: 120px; }
-  .nav--scrolled .img-logo { width: 62px; height: 62px; }
+  .img-logo { width: 170px; height: 170px; }
+  .nav--scrolled .img-logo { width: 80px; height: 80px; }
 
   /* show hamburger, hide desktop nav + redes */
   .hamburger { display: flex; }
@@ -1425,7 +1441,7 @@ footer::after {
 @media (max-width: 640px) {
   html { font-size: 16px; }
 
-  .img-logo { width: 92px; height: 92px; }
+  .img-logo { width: 120px; height: 120px; }
 
   .presentacion-inicio { padding: 1.5rem; }
   .presentacion-inicio h1 { font-size: 2rem; }
@@ -1473,4 +1489,3 @@ footer::after {
   .presentacion-inicio h1 { font-size: 1.7rem; }
   .menu { width: 90%; }
 }
-

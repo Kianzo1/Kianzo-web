@@ -386,19 +386,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const servicios = [
     {
       selector: ".imagenes-servicio-1",
-      imgs: ["imagenes/img6.webp","imagenes/img24.webp","imagenes/img32.webp"]
+      imgs: ["imagenes/img6.jpg","imagenes/img24.JPG","imagenes/img32.jpeg"]
     },
     {
       selector: ".imagenes-servicio-2",
-      imgs: ["imagenes/img39.webp","imagenes/img17.webp","imagenes/img37.webp"]
+      imgs: ["imagenes/img39.jpeg","imagenes/img17.jpg","imagenes/img37.jpeg"]
     },
     {
       selector: ".imagenes-servicio-3",
-      imgs: ["imagenes/img43.webp","imagenes/img61.webp","imagenes/img28.webp"]
+      imgs: ["imagenes/img43.jpeg","imagenes/img61.jpeg","imagenes/img28.jpg"]
     },
     {
       selector: ".imagenes-servicio-4",
-      imgs: ["imagenes/img54.webp","imagenes/img51.webp","imagenes/img18.webp"]
+      imgs: ["imagenes/img54.jpeg","imagenes/img51.jpeg","imagenes/img18.jpg"]
     }
   ];
 
