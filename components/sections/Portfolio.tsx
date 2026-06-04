@@ -17,6 +17,15 @@ const projects = [
     url: '/istore/index.html',
     img: '/portfolio/istore.webp',
   },
+  {
+    slug: 'alma-condor',
+    title: 'Alma Cóndor',
+    category: 'Restaurante · Demo',
+    desc: 'Sitio premium para parrilla de autor en Mendoza. Experiencia visual cinematográfica con animaciones de scroll, carta interactiva y cava de vinos.',
+    tags: ['Next.js', 'TypeScript', 'Tailwind'],
+    url: 'https://alma-condor.vercel.app',
+    img: '/portfolio/alma-condor.webp',
+  },
 ];
 
 export default function Portfolio() {
