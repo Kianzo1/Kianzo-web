@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useLang } from '@/context/LanguageContext';
 
 const SCRAMBLE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ01キアンゾ';
@@ -51,6 +52,7 @@ export default function Navbar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const { lang, setLang, t } = useLang();
   const { ref: logoRef, trigger: scrambleLogo } = useScramble();
+  const router = useRouter();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 30);
@@ -64,7 +66,7 @@ export default function Navbar() {
   return (
     <>
       <nav className={`kianzo-nav${scrolled ? ' scrolled' : ''}`}>
-        <a href="#hero" className="nav-logo" onMouseEnter={scrambleLogo}>
+        <a href="/" className="nav-logo" onMouseEnter={scrambleLogo} onClick={(e) => { e.preventDefault(); router.push('/'); window.scrollTo({ top: 0 }); }}>
           <NavLogo />
           <div>
             <span className="nav-logo-text">

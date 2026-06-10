@@ -176,6 +176,27 @@ export default function Hero() {
     };
   }, []);
 
+  useEffect(() => {
+    const run = async () => {
+      const { animate, stagger } = await import('animejs');
+      animate('.word-inner', {
+        translateY: ['110%', '0%'],
+        opacity: [0, 1],
+        duration: 1100,
+        delay: stagger(90, { start: 400 }),
+        easing: 'cubicBezier(0.16, 1, 0.3, 1)',
+      });
+      animate('.hero-sub', {
+        translateY: [20, 0],
+        opacity: [0, 1],
+        duration: 900,
+        delay: 900,
+        easing: 'cubicBezier(0.16, 1, 0.3, 1)',
+      });
+    };
+    run();
+  }, []);
+
   const handleSlash = () => {
     const el = strongRef.current;
     if (!el) return;
@@ -234,8 +255,13 @@ export default function Hero() {
         </h1>
         <p className="hero-sub">{t('hero_sub')}</p>
         <div className="hero-btns">
-          <a href="#servicios" className="btn-red">{t('hero_btn_primary')}</a>
-          <a href="#contacto" className="btn-outline">{t('hero_btn_secondary')}</a>
+          <a href="#contacto" className="btn-fill">{t('hero_btn_secondary')}</a>
+          <a href="/portfolio" className="btn-glow">
+            {t('hero_btn_portfolio')}
+            <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
+              <path d="M3 11L11 3M11 3H5M11 3V9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </a>
         </div>
       </div>
 

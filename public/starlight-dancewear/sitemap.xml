@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Paginas principales -->
+  <url><loc>https://starlightdancewear.com/</loc><priority>1.0</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://starlightdancewear.com/nosotros</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://starlightdancewear.com/contacto</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+
+  <!-- Colecciones -->
+  <url><loc>https://starlightdancewear.com/colecciones/maillots</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://starlightdancewear.com/colecciones/calzas</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://starlightdancewear.com/colecciones/camperas</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://starlightdancewear.com/colecciones/buzos</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://starlightdancewear.com/colecciones/vestuarios</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://starlightdancewear.com/colecciones/infantil</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>
+
+  <!--
+    Productos y academias: regenerar con el script generate-sitemap.js
+    cuando se agreguen nuevos productos al catalogo.
+  -->
+</urlset>

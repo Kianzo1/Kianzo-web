@@ -50,6 +50,26 @@ export default function Services() {
     return () => cleanup.forEach((fn) => fn());
   }, []);
 
+  useEffect(() => {
+    const grid = document.querySelector('.svc-grid');
+    if (!grid) return;
+    const obs = new IntersectionObserver(async ([entry]) => {
+      if (!entry.isIntersecting) return;
+      obs.disconnect();
+      const { animate, stagger } = await import('animejs');
+      animate('.svc-card', {
+        translateY: [40, 0],
+        opacity: [0, 1],
+        scale: [0.96, 1],
+        duration: 900,
+        delay: stagger(80),
+        easing: 'cubicBezier(0.16, 1, 0.3, 1)',
+      });
+    }, { threshold: 0.08 });
+    obs.observe(grid);
+    return () => obs.disconnect();
+  }, []);
+
   return (
     <section id="servicios" className="kianzo-section" ref={headerRef}>
       <div className="svc-header">

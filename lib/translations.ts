@@ -18,6 +18,7 @@ const translations = {
     hero_sub: 'Páginas web y aplicaciones móviles construidas con precisión y disciplina. Cada proyecto, una obra.',
     hero_btn_primary: 'Ver servicios',
     hero_btn_secondary: 'Cotizá gratis →',
+    hero_btn_portfolio: 'Ver proyectos',
 
     // Services
     svc_tag: 'Servicios',
@@ -155,6 +156,19 @@ const translations = {
     port2_desc: 'Tienda de productos Apple con experiencia premium. Catálogo interactivo, carrito, modo demo con datos de ejemplo y diseño inspirado en Apple.com.',
     port3_cat: 'Restaurante · Demo',
     port3_desc: 'Sitio premium para parrilla de autor en Mendoza. Experiencia visual cinematográfica con animaciones de scroll, carta interactiva y cava de vinos.',
+    port1_feat: 'Galería de trabajos · WhatsApp directo · SEO local',
+    port2_feat: 'Catálogo interactivo · Carrito · Modo demo',
+    port3_feat: 'Scroll cinematográfico · Carta interactiva · Cava de vinos',
+    port_view_all: 'Ver todos los proyectos',
+
+    // Portfolio page
+    pf_back: 'Volver al inicio',
+    pf_h1_1: 'Nuestros',
+    pf_h1_strong: 'proyectos.',
+    pf_sub: 'Cada proyecto refleja nuestra filosofía: diseño de calidad, código sólido y atención al detalle. Explorá el trabajo que hacemos.',
+    pf_cta_label: '¿Querés uno así?',
+    pf_cta_title: 'Empecemos tu proyecto.',
+    pf_cta_btn: 'Hablemos →',
 
     // Footer
     footer_copy: '© 2025 Kianzo · Desarrollo Web & Apps · Mendoza, Argentina',
@@ -177,6 +191,7 @@ const translations = {
     hero_sub: 'Web pages and mobile apps built with precision and discipline. Every project, a work of art.',
     hero_btn_primary: 'View services',
     hero_btn_secondary: 'Get a free quote →',
+    hero_btn_portfolio: 'View projects',
 
     // Services
     svc_tag: 'Services',
@@ -314,6 +329,19 @@ const translations = {
     port2_desc: 'Apple products store with a premium experience. Interactive catalog, cart, demo mode with sample data and Apple.com-inspired design.',
     port3_cat: 'Restaurant · Demo',
     port3_desc: 'Premium site for an upscale steakhouse in Mendoza. Cinematic visual experience with scroll animations, interactive menu and wine cellar.',
+    port1_feat: 'Work gallery · Direct WhatsApp · Local SEO',
+    port2_feat: 'Interactive catalog · Cart · Demo mode',
+    port3_feat: 'Cinematic scroll · Interactive menu · Wine cellar',
+    port_view_all: 'View all projects',
+
+    // Portfolio page
+    pf_back: 'Back to home',
+    pf_h1_1: 'Our',
+    pf_h1_strong: 'projects.',
+    pf_sub: 'Every project reflects our philosophy: quality design, solid code and attention to detail. Explore the work we do.',
+    pf_cta_label: 'Want one like this?',
+    pf_cta_title: "Let's start your project.",
+    pf_cta_btn: "Let's talk →",
 
     // Footer
     footer_copy: '© 2025 Kianzo · Web Development & Apps · Mendoza, Argentina',

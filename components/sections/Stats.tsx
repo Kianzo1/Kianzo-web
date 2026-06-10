@@ -70,17 +70,20 @@ export default function Stats() {
     if (!row) return;
     const items = row.querySelectorAll('.stat');
     const obs = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            items.forEach((it, i) => {
-              setTimeout(() => it.classList.add('line-go'), i * 140);
-            });
-            obs.disconnect();
-          }
+      async (entries) => {
+        if (!entries[0].isIntersecting) return;
+        obs.disconnect();
+        items.forEach((it, i) => setTimeout(() => it.classList.add('line-go'), i * 140));
+        const { animate, stagger } = await import('animejs');
+        animate(items, {
+          translateY: [30, 0],
+          opacity: [0, 1],
+          duration: 800,
+          delay: stagger(110),
+          easing: 'cubicBezier(0.16, 1, 0.3, 1)',
         });
       },
-      { threshold: 0.3 }
+      { threshold: 0.25 }
     );
     obs.observe(row);
     return () => obs.disconnect();

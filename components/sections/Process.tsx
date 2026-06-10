@@ -30,12 +30,20 @@ export default function Process() {
     const track = trackRef.current;
     if (!track) return;
     const stepEls = track.querySelectorAll<HTMLElement>('.process-step');
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
+    const obs = new IntersectionObserver(async (entries) => {
+      entries.forEach(async (e) => {
         if (e.isIntersecting) {
           track.classList.add('line-in');
           stepEls.forEach((s, i) => { setTimeout(() => s.classList.add('step-visible'), 200 + i * 180); });
           obs.disconnect();
+          const { animate, stagger } = await import('animejs');
+          animate(stepEls, {
+            translateY: [50, 0],
+            opacity: [0, 1],
+            duration: 900,
+            delay: stagger(130, { start: 100 }),
+            easing: 'cubicBezier(0.16, 1, 0.3, 1)',
+          });
         }
       });
     }, { threshold: 0.25 });

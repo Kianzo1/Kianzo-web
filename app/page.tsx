@@ -1,7 +1,6 @@
 'use client';
 
 import Cursor from '@/components/ui/Cursor';
-import SunScroller from '@/components/ui/SunScroller';
 import ScrollProgress from '@/components/ui/ScrollProgress';
 import RevealObserver from '@/components/ui/RevealObserver';
 import IntroScreen from '@/components/IntroScreen';
@@ -21,8 +20,7 @@ export default function Home() {
     <>
       <IntroScreen />
       <Cursor />
-      <SunScroller />
-<ScrollProgress />
+      <ScrollProgress />
       <RevealObserver />
       <Navbar />
       <main>

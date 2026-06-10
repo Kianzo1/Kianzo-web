@@ -1,0 +1,15 @@
+# Starlight Dancewear — robots.txt
+User-agent: *
+Allow: /
+
+# No indexar flujo de compra ni admin
+Disallow: /checkout
+Disallow: /carrito
+Disallow: /confirmacion/
+Disallow: /admin/
+Disallow: /login
+Disallow: /registro
+Disallow: /perfil
+
+# Sitemap
+Sitemap: https://starlightdancewear.com/sitemap.xml
