@@ -2073,6 +2073,8 @@ nav.kianzo-nav.scrolled {
 .foot-logo { font-family: var(--font-serif-var), 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 600; letter-spacing: 0.05em; }
 .foot-logo span { color: var(--red); }
 .kianzo-footer p { color: var(--gray); font-size: 0.78rem; letter-spacing: 0.04em; }
+.foot-legal a { color: var(--gray); transition: color 0.25s var(--ease); }
+.foot-legal a:hover { color: var(--red); }
 
 /* ─── SOCIAL ICONS ─── */
 .social-links { display: flex; align-items: center; gap: 0.75rem; }

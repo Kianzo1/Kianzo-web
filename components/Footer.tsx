@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useLang } from '@/context/LanguageContext';
 
 const InstagramIcon = () => (
@@ -30,13 +31,18 @@ const WhatsappIcon = () => (
 );
 
 export default function Footer() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   return (
     <footer className="kianzo-footer">
       <a href="#hero" className="foot-logo">
         Kianzo<span>.</span>
       </a>
       <p>{t('footer_copy')}</p>
+      <p className="foot-legal">
+        <Link href="/privacidad">
+          {lang === 'EN' ? 'Privacy Policy' : 'Política de Privacidad'}
+        </Link>
+      </p>
       <div className="social-links">
         <a
           href="https://instagram.com/kianzo.ar"
