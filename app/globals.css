@@ -59,10 +59,13 @@ a { text-decoration: none; color: inherit; }
 
 /* ─── SCROLL PROGRESS ─── */
 .scroll-progress {
-  position: fixed; top: 0; left: 0; height: 2px; width: 0%;
+  position: fixed; top: 0; left: 0; height: 2px; width: 100%;
   background: linear-gradient(90deg, var(--red-deep), var(--red));
-  z-index: 600; transition: width 0.1s linear; pointer-events: none;
+  z-index: 600; pointer-events: none;
   transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 0.1s linear;
+  will-change: transform;
 }
 
 /* ─── CURSOR (sits above EVERYTHING — even intro) ─── */
@@ -2121,11 +2124,11 @@ nav.kianzo-nav.scrolled {
 @keyframes slideRight { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: none; } }
 @keyframes sunFloat { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(-13px); } }
 @keyframes rotateSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-@keyframes scrollPulse { 0%, 100% { width: 40px; opacity: 1; } 50% { width: 66px; opacity: 0.5; } }
+@keyframes scrollPulse { 0%, 100% { transform: scaleX(1); opacity: 1; } 50% { transform: scaleX(1.65); opacity: 0.5; } }
 @keyframes wordReveal { from { transform: translateY(110%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 @keyframes trasciendeHint { 0%, 100% { text-shadow: none; } 50% { text-shadow: 0 0 10px rgba(192, 0, 26, 0.12), 0 0 22px rgba(192, 0, 26, 0.04); } }
-@keyframes trasciendeShine { 0%, 65%, 100% { left: -30%; opacity: 0; } 5% { opacity: 1; } 55% { left: 120%; opacity: 0.9; } 60% { left: 120%; opacity: 0; } }
-@keyframes katanaSlash { 0% { left: -4%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { left: 106%; opacity: 0; } }
+@keyframes trasciendeShine { 0%, 65%, 100% { transform: translateX(-130%); opacity: 0; } 5% { opacity: 1; } 55% { transform: translateX(220%); opacity: 0.9; } 60% { transform: translateX(220%); opacity: 0; } }
+@keyframes katanaSlash { 0% { transform: translateX(-104%); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateX(210%); opacity: 0; } }
 @keyframes bladeGlow { 0% { text-shadow: none; } 30% { text-shadow: 0 0 14px rgba(192, 0, 26, 0.75), 0 0 30px rgba(192, 0, 26, 0.3); } 100% { text-shadow: 0 0 6px rgba(192, 0, 26, 0.2); } }
 @keyframes kanjiBreath { 0%, 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); } 50% { opacity: 0.55; transform: translate(-50%, -50%) scale(1.015); } }
 @keyframes scanLine { 0% { top: -2%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 102%; opacity: 0; } }
