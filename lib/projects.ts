@@ -40,10 +40,9 @@ const projects: Project[] = [
     desc: 'Sitio premium para parrilla de autor en Mendoza. Experiencia visual cinematográfica con animaciones de scroll, carta interactiva y cava de vinos.',
     tags: ['Next.js', 'TypeScript', 'Tailwind'],
     img: '/portfolio/alma-condor.webp',
-    url: '#',
+    url: '/alma-condor/index.html',
     featured: true,
     color: '#C0001A',
-    comingSoon: true,
   },
   {
     slug: 'carrizo',
