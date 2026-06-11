@@ -22,6 +22,8 @@ export default function PrivacidadPage() {
           font-family: var(--font-body, 'Space Grotesk', sans-serif);
           padding: 0 0 6rem;
         }
+        .pp, .pp * { cursor: auto; }
+        .pp a { cursor: pointer; }
         .pp-bar {
           border-bottom: 1px solid rgba(255,255,255,0.07);
           padding: 1.75rem 0;
