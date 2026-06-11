@@ -14,7 +14,7 @@ const serif = Cormorant_Garamond({
 
 const ja = Noto_Sans_JP({
   subsets: ['latin'],
-  weight: ['300', '400', '700'],
+  weight: ['400', '700'],
   variable: '--font-ja-var',
   display: 'swap',
 });
