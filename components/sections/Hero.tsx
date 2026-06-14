@@ -73,6 +73,9 @@ export default function Hero() {
     const disc = sunRef.current?.querySelector('.hero-sun-disc') as HTMLElement | null;
 
     let mx = 0, my = 0;
+    let rect = section.getBoundingClientRect();
+    let ex = rect.width / 2, ey = rect.top + rect.height / 2; // centro = parallax neutral al inicio
+    let heroVisible = true;
     let parallaxPending = false;
     let parallaxRaf = 0;
     let fallRaf = 0;
@@ -80,6 +83,9 @@ export default function Hero() {
 
     const applyParallax = () => {
       parallaxPending = false;
+      rect = section.getBoundingClientRect(); // 1 lectura de layout por frame, no por evento
+      mx = (ex / rect.width - 0.5) * 2;
+      my = ((ey - rect.top) / rect.height - 0.5) * 2;
       const sy = window.scrollY;
       if (parallaxRef.current)
         parallaxRef.current.style.transform = `translate3d(${mx * 18}px, ${sy * 0.25 + my * 12}px, 0)`;
@@ -158,17 +164,24 @@ export default function Hero() {
       if (!parallaxPending) { parallaxPending = true; parallaxRaf = requestAnimationFrame(applyParallax); }
     };
     const onMouse = (e: MouseEvent) => {
-      const r = section.getBoundingClientRect();
-      mx = (e.clientX / r.width - 0.5) * 2;
-      my = ((e.clientY - r.top) / r.height - 0.5) * 2;
+      if (!heroVisible) return; // no hacer nada cuando el hero está fuera de vista
+      ex = e.clientX; ey = e.clientY;
       if (!parallaxPending) { parallaxPending = true; parallaxRaf = requestAnimationFrame(applyParallax); }
     };
+
+    // Solo escuchar el mouse mientras el hero esté visible
+    const io = new IntersectionObserver(
+      ([entry]) => { heroVisible = entry.isIntersecting; },
+      { threshold: 0 }
+    );
+    io.observe(section);
 
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('mousemove', onMouse, { passive: true });
     applyParallax();
 
     return () => {
+      io.disconnect();
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('mousemove', onMouse);
       cancelAnimationFrame(parallaxRaf);

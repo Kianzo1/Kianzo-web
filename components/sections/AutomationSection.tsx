@@ -9,7 +9,7 @@ import {
   ShoppingBagOpen,
   UserCircle,
 } from '@phosphor-icons/react';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLang } from '@/context/LanguageContext';
 import type { TranslationKey } from '@/lib/translations';
 
@@ -148,16 +148,30 @@ function ActivityChart() {
 function ChatMock() {
   const { t } = useLang();
   const [count, setCount] = useState(1);
+  const rootRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const id = setInterval(() => {
-      setCount((c) => (c >= chatScript.length ? 1 : c + 1));
-    }, 2000);
-    return () => clearInterval(id);
+    const el = rootRef.current;
+    if (!el) return;
+    let id: ReturnType<typeof setInterval> | null = null;
+    const start = () => {
+      if (id) return;
+      id = setInterval(() => {
+        setCount((c) => (c >= chatScript.length ? 1 : c + 1));
+      }, 2000);
+    };
+    const stop = () => { if (id) { clearInterval(id); id = null; } };
+    // Solo animar el chat cuando la sección está a la vista
+    const io = new IntersectionObserver(
+      ([entry]) => (entry.isIntersecting ? start() : stop()),
+      { threshold: 0.2 }
+    );
+    io.observe(el);
+    return () => { stop(); io.disconnect(); };
   }, []);
   const visible = chatScript.slice(0, count);
 
   return (
-    <div className="auto-chat">
+    <div className="auto-chat" ref={rootRef}>
       <div className="auto-chat-head">
         <div className="auto-chat-avatar">k</div>
         <div className="auto-chat-meta">
