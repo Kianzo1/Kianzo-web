@@ -72,6 +72,20 @@ const projects: Project[] = [
     featured: false,
     color: '#e879a0',
   },
+  {
+    slug: 'barberia',
+    num: '05',
+    year: '2025',
+    title: 'Distrito Barbería',
+    cat: 'web',
+    catLabel: 'Web Institucional · Demo',
+    desc: 'Sitio premium para la cadena de barberías más grande de Mendoza. 5 sucursales, academia profesional, galería y reservas online.',
+    tags: ['Next.js', 'TypeScript', 'Tailwind'],
+    img: '/portfolio/barberia.webp',
+    url: '/barberia/index.html',
+    featured: false,
+    color: '#b8960c',
+  },
   // ─── PRÓXIMOS PROYECTOS ───────────────────────────────────────────────────
   // Copiar bloque de arriba y pegar acá. Cambiar featured: false para que
   // no aparezca en home pero sí en la página de portfolio.

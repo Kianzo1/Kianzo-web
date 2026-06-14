@@ -56,15 +56,14 @@ export default function PortfolioPage() {
     return () => obs?.disconnect();
   }, []);
 
-  // Animate cards on filter change
+  // Animate rows on filter change
   useEffect(() => {
     loadAnime().then(() => {
-      _animate('.pfx-grid-card', {
+      _animate('.pfx-row', {
         opacity: [0, 1],
-        translateY: [24, 0],
-        scale: [0.97, 1],
-        duration: 550,
-        delay: _stagger(60),
+        translateY: [18, 0],
+        duration: 520,
+        delay: _stagger(55),
         easing: 'cubicBezier(0.16, 1, 0.3, 1)',
       });
     });
@@ -131,8 +130,8 @@ export default function PortfolioPage() {
           <span className="pfx-filter-total">{filtered.length} resultado{filtered.length !== 1 ? 's' : ''}</span>
         </div>
 
-        {/* ── GRID ── */}
-        <div className="pfx-grid">
+        {/* ── PROJECT LIST — filas horizontales con thumbnail ── */}
+        <div className="pfx-index">
           {filtered.map((p, i) => (
             <a
               key={p.slug}
@@ -140,45 +139,31 @@ export default function PortfolioPage() {
               target={p.url.startsWith('http') && !p.comingSoon ? '_blank' : '_self'}
               rel="noopener noreferrer"
               aria-disabled={p.comingSoon}
-              className={`pfx-grid-card${p.comingSoon ? ' pfx-grid-card--soon' : ''}`}
-              data-reveal="blur"
-              data-num={p.num}
-              style={{ '--pcolor': p.color, '--reveal-delay': `${i * 80}ms` } as React.CSSProperties}
-              onMouseMove={!p.comingSoon ? (e => {
-                const r = e.currentTarget.getBoundingClientRect();
-                e.currentTarget.style.setProperty('--mx', `${e.clientX - r.left}px`);
-                e.currentTarget.style.setProperty('--my', `${e.clientY - r.top}px`);
-              }) : undefined}
+              className={`pfx-row${p.comingSoon ? ' pfx-row--soon' : ''}`}
+              data-reveal="up"
+              style={{ '--pcolor': p.color, '--reveal-delay': `${i * 70}ms` } as React.CSSProperties}
             >
-              <div className="pfx-card-glow" />
-              <div className="pfx-grid-img">
+              <div className="pfx-row-thumb">
                 <img src={p.img} alt={p.title} loading="lazy" />
-                <div className="pfx-grid-overlay">
-                  <span className="pfx-grid-pill">{p.comingSoon ? 'Próximamente' : t('port_cta')}</span>
-                </div>
-                {p.comingSoon && <span className="pfx-grid-soon-badge">Redespliegue en progreso</span>}
-                <span className="pfx-grid-num">{p.num}</span>
-                <span className="pfx-grid-year">{p.year}</span>
+                {p.comingSoon && <span className="pfx-row-soon-badge">Próximamente</span>}
+                <span className="pfx-row-thumb-num">{p.num}</span>
               </div>
-              <div className="pfx-grid-body">
-                <div className="pfx-grid-meta">
-                  <span className="pfx-grid-cat">{p.catLabel}</span>
-                </div>
-                <h3 className="pfx-grid-title">{p.title}</h3>
-                <p className="pfx-grid-desc">{p.desc}</p>
-                <div className="pfx-grid-tags">
+              <div className="pfx-row-body">
+                <span className="pfx-row-cat">{p.catLabel}</span>
+                <h3 className="pfx-row-title">{p.title}</h3>
+                <p className="pfx-row-desc">{p.desc}</p>
+                <div className="pfx-row-tags">
                   {p.tags.map(tag => <span key={tag} className="pfx-tag-sm">{tag}</span>)}
                 </div>
-                {i === 0 && (
-                  <span className="pfx-grid-hero-cta">
-                    Ver proyecto
-                    <svg width="11" height="11" viewBox="0 0 14 14" fill="none">
-                      <path d="M3 11L11 3M11 3H5M11 3V9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </span>
-                )}
               </div>
-              <div className="pfx-grid-bar" />
+              <div className="pfx-row-meta">
+                <span className="pfx-row-year">{p.year}</span>
+                <span className="pfx-row-arrow">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                    <path d="M4 14L14 4M14 4H7M14 4V11" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </span>
+              </div>
             </a>
           ))}
         </div>

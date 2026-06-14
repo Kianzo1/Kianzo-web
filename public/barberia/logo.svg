@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Black circle background -->
+  <circle cx="100" cy="100" r="100" fill="#000"/>
+
+  <!-- Outer border rectangle -->
+  <rect x="11" y="52" width="178" height="104" fill="none" stroke="#fff" stroke-width="5" rx="1"/>
+  <!-- Inner border rectangle -->
+  <rect x="19" y="60" width="162" height="88" fill="none" stroke="#fff" stroke-width="2"/>
+
+  <!-- ELCLUB — force-fit into 156px width -->
+  <text
+    x="100"
+    y="116"
+    font-family="'Arial Black','Impact','Franklin Gothic Heavy',sans-serif"
+    font-size="60"
+    font-weight="900"
+    font-style="italic"
+    fill="#fff"
+    text-anchor="middle"
+    dominant-baseline="middle"
+    textLength="152"
+    lengthAdjust="spacingAndGlyphs"
+  >ELCLUB</text>
+
+  <!-- BARBERSHOP — force-fit into 140px width -->
+  <text
+    x="100"
+    y="146"
+    font-family="'Arial Black','Impact','Franklin Gothic Heavy',sans-serif"
+    font-size="16"
+    font-weight="900"
+    fill="#fff"
+    text-anchor="middle"
+    dominant-baseline="middle"
+    textLength="140"
+    lengthAdjust="spacingAndGlyphs"
+    letter-spacing="2"
+  >BARBERSHOP</text>
+</svg>

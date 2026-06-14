@@ -768,161 +768,108 @@ nav.kianzo-nav.scrolled {
   color: rgba(255,255,255,0.2); text-transform: uppercase;
 }
 
-/* Grid — escala de 3 a N proyectos */
-.pfx-grid {
+/* ── PROJECT LIST — filas horizontales con thumbnail, escala a N proyectos ── */
+.pfx-index {
+  padding: 1.25rem 5rem 4rem;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  display: flex; flex-direction: column; gap: 0.85rem;
+}
+.pfx-row {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.25rem;
-  padding: 0 5rem 5rem;
-}
-
-/* ── Card base ── */
-.pfx-grid-card {
-  display: flex; flex-direction: column;
+  grid-template-columns: 280px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 2.5rem;
+  padding: 1.1rem 1.4rem 1.1rem 1.1rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: #0c0c0c;
   text-decoration: none; color: inherit;
-  background: #111; border-radius: 12px; overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.07);
   position: relative;
-  transition: border-color 0.4s, box-shadow 0.4s;
+  transition: border-color 0.45s cubic-bezier(0.16,1,0.3,1),
+              background 0.45s cubic-bezier(0.16,1,0.3,1),
+              transform 0.45s cubic-bezier(0.16,1,0.3,1);
 }
-.pfx-grid-card:hover {
-  border-color: color-mix(in srgb, var(--pcolor, #C0001A) 50%, transparent);
-  box-shadow: 0 24px 64px rgba(0,0,0,0.65),
-              0 0 0 1px color-mix(in srgb, var(--pcolor, #C0001A) 22%, transparent),
-              0 8px 48px color-mix(in srgb, var(--pcolor, #C0001A) 28%, transparent);
+.pfx-row:hover {
+  border-color: color-mix(in srgb, var(--pcolor, #C0001A) 35%, transparent);
+  background: #101010;
+  transform: translateY(-2px);
 }
-/* Cursor-tracking spotlight */
-.pfx-card-glow {
-  position: absolute; inset: 0; border-radius: 12px; pointer-events: none; z-index: 2;
-  background: radial-gradient(circle 260px at var(--mx, 50%) var(--my, 50%),
-    color-mix(in srgb, var(--pcolor, #C0001A) 14%, transparent) 0%,
-    transparent 70%);
-  opacity: 0; transition: opacity 0.4s;
-}
-.pfx-grid-card:hover .pfx-card-glow { opacity: 1; }
 
-/* ── HERO card: primera card full-width horizontal ── */
-.pfx-grid-card:first-child {
-  grid-column: 1 / -1;
-  flex-direction: row;
-  min-height: 400px;
-}
-.pfx-grid-card:first-child .pfx-grid-img {
-  width: 56%;
+/* Thumbnail */
+.pfx-row-thumb {
+  position: relative; width: 280px; aspect-ratio: 16/10;
+  border-radius: 11px; overflow: hidden; background: #080808;
   flex-shrink: 0;
-  aspect-ratio: unset;
-  min-height: 400px;
 }
-.pfx-grid-card:first-child .pfx-grid-body {
-  padding: 2.8rem 3.2rem;
-  justify-content: center;
-  gap: 1rem;
-}
-.pfx-grid-card:first-child .pfx-grid-title {
-  font-size: 2.4rem;
-  line-height: 1.08;
-  -webkit-line-clamp: unset;
+.pfx-row-thumb img {
+  width: 100%; height: 100%; object-fit: cover; object-position: top;
   display: block;
+  transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
 }
-.pfx-grid-card:first-child .pfx-grid-desc {
-  -webkit-line-clamp: 4;
-  font-size: 0.88rem;
-  max-width: 340px;
-}
-.pfx-grid-card:first-child .pfx-grid-cat {
-  font-size: 0.72rem;
-  letter-spacing: 0.2em;
-}
-/* Ghost number on hero */
-.pfx-grid-card:first-child::before {
-  content: attr(data-num);
-  position: absolute;
-  bottom: -0.5rem; right: 1.5rem;
+.pfx-row:hover .pfx-row-thumb img { transform: scale(1.05); }
+.pfx-row-thumb-num {
+  position: absolute; top: 0.6rem; left: 0.7rem;
   font-family: var(--font-serif-var), 'Cormorant Garamond', serif;
-  font-size: 9rem; font-weight: 700; line-height: 1;
-  color: rgba(255,255,255,0.03);
-  pointer-events: none; user-select: none;
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.85); background: rgba(0,0,0,0.45);
+  padding: 0.1rem 0.5rem; border-radius: 4px; backdrop-filter: blur(4px);
+}
+.pfx-row-soon-badge {
+  position: absolute; bottom: 0.6rem; left: 50%; transform: translateX(-50%);
+  font-size: 0.58rem; letter-spacing: 0.16em; text-transform: uppercase;
+  color: rgba(255,255,255,0.6); background: rgba(0,0,0,0.7);
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 0.2rem 0.7rem; border-radius: 999px; white-space: nowrap;
+}
+
+/* Body */
+.pfx-row-body { display: flex; flex-direction: column; gap: 0.55rem; min-width: 0; }
+.pfx-row-cat {
+  font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--red);
+}
+.pfx-row-title {
+  font-family: var(--font-serif-var), 'Cormorant Garamond', serif;
+  font-size: clamp(1.6rem, 2.4vw, 2.1rem); font-weight: 600;
+  line-height: 1.05; color: var(--white);
   transition: color 0.4s;
 }
-.pfx-grid-card:first-child:hover::before {
-  color: color-mix(in srgb, var(--pcolor, #C0001A) 8%, transparent);
+.pfx-row:hover .pfx-row-title { color: var(--pcolor, #C0001A); }
+.pfx-row-desc {
+  font-size: 0.84rem; color: rgba(255,255,255,0.4); line-height: 1.6;
+  font-weight: 300;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
-/* Hero: CTA arrow badge in body */
-.pfx-grid-card:first-child .pfx-grid-hero-cta {
-  display: inline-flex; align-items: center; gap: 0.5rem;
-  margin-top: 0.5rem;
-  font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
-  color: rgba(255,255,255,0.4);
-  border-bottom: 1px solid rgba(255,255,255,0.12);
-  padding-bottom: 0.25rem;
-  width: fit-content;
-  transition: color 0.25s, border-color 0.25s;
-}
-.pfx-grid-card:first-child:hover .pfx-grid-hero-cta {
-  color: rgba(255,255,255,0.8);
-  border-color: rgba(255,255,255,0.35);
-}
+.pfx-row-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.15rem; }
 
-/* ── Image ── */
-.pfx-grid-img { position: relative; width: 100%; aspect-ratio: 16/9; overflow: hidden; background: #0a0a0a; }
-.pfx-grid-img img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; transition: transform 0.6s cubic-bezier(0.16,1,0.3,1); }
-.pfx-grid-card:hover .pfx-grid-img img { transform: scale(1.06); }
-
-.pfx-grid-overlay {
-  position: absolute; inset: 0;
-  background: linear-gradient(135deg, color-mix(in srgb, var(--pcolor, #C0001A) 60%, transparent), rgba(0,0,0,0.5));
+/* Meta column */
+.pfx-row-meta {
+  display: flex; flex-direction: column; align-items: flex-end;
+  justify-content: space-between; align-self: stretch;
+  gap: 1rem; padding: 0.3rem 0;
+}
+.pfx-row-year {
+  font-size: 0.74rem; letter-spacing: 0.1em; color: rgba(255,255,255,0.3);
+}
+.pfx-row-arrow {
   display: flex; align-items: center; justify-content: center;
-  opacity: 0; transition: opacity 0.3s;
+  width: 2.4rem; height: 2.4rem; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.5);
+  transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), color 0.4s, border-color 0.4s, background 0.4s;
 }
-.pfx-grid-card:hover .pfx-grid-overlay { opacity: 1; }
-.pfx-grid-pill {
-  font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase;
-  color: #fff; border: 1px solid rgba(255,255,255,0.75);
-  padding: 0.45rem 1.2rem; border-radius: 999px;
-  transform: translateY(8px); transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
-}
-.pfx-grid-card:hover .pfx-grid-pill { transform: translateY(0); }
-
-.pfx-grid-num {
-  position: absolute; top: 0.75rem; left: 0.85rem;
-  font-family: var(--font-serif-var), 'Cormorant Garamond', serif;
-  font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em;
-  color: rgba(255,255,255,0.9); background: rgba(0,0,0,0.5);
-  padding: 0.12rem 0.55rem; border-radius: 4px;
-}
-.pfx-grid-year {
-  position: absolute; top: 0.75rem; right: 0.85rem;
-  font-size: 0.65rem; letter-spacing: 0.12em;
-  color: rgba(255,255,255,0.5); background: rgba(0,0,0,0.4);
-  padding: 0.12rem 0.55rem; border-radius: 4px;
+.pfx-row:hover .pfx-row-arrow {
+  transform: translate(3px, -3px);
+  color: #fff; border-color: var(--pcolor, #C0001A);
+  background: var(--pcolor, #C0001A);
 }
 
-/* ── Body ── */
-.pfx-grid-body { padding: 1.1rem 1.25rem 1.25rem; display: flex; flex-direction: column; gap: 0.6rem; flex: 1; }
-.pfx-grid-meta { display: flex; align-items: center; }
-.pfx-grid-cat { font-size: 0.65rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--red); }
-.pfx-grid-title { font-family: var(--font-serif-var), 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 600; line-height: 1.15; color: var(--white); }
-.pfx-grid-desc { font-size: 0.82rem; color: rgba(255,255,255,0.35); line-height: 1.65; font-weight: 300; flex: 1; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.pfx-grid-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
-.pfx-tag-sm { font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.28); border: 1px solid rgba(255,255,255,0.09); padding: 0.22rem 0.6rem; border-radius: 999px; }
-
-/* ── Accent bar bottom ── */
-.pfx-grid-bar { height: 2px; width: 0; background: var(--pcolor, var(--red)); transition: width 0.45s cubic-bezier(0.16,1,0.3,1); flex-shrink: 0; }
-.pfx-grid-card:hover .pfx-grid-bar { width: 100%; }
-
-/* ── Coming soon state ── */
-.pfx-grid-card--soon { cursor: default; }
-.pfx-grid-card--soon:hover { box-shadow: none; border-color: rgba(255,255,255,0.07); }
-.pfx-grid-card--soon:hover .pfx-grid-img img { transform: none; }
-.pfx-grid-card--soon .pfx-card-glow { display: none; }
-.pfx-grid-soon-badge {
-  position: absolute; bottom: 0.75rem; left: 50%; transform: translateX(-50%);
-  font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase;
-  color: rgba(255,255,255,0.5); background: rgba(0,0,0,0.7);
-  border: 1px solid rgba(255,255,255,0.12);
-  padding: 0.2rem 0.75rem; border-radius: 999px; white-space: nowrap;
-  backdrop-filter: blur(6px);
-}
+/* Coming soon */
+.pfx-row--soon { cursor: default; }
+.pfx-row--soon:hover { transform: none; border-color: rgba(255,255,255,0.06); background: #0c0c0c; }
+.pfx-row--soon:hover .pfx-row-thumb img { transform: none; }
+.pfx-row--soon:hover .pfx-row-title { color: var(--white); }
+.pfx-row--soon .pfx-row-arrow { display: none; }
 
 /* ── Métricas ── */
 .pfx-metrics {
@@ -1040,22 +987,27 @@ nav.kianzo-nav.scrolled {
 .pfx-empty { text-align: center; padding: 6rem 2rem; color: rgba(255,255,255,0.2); font-size: 0.9rem; letter-spacing: 0.1em; }
 
 /* Responsive */
-@media (max-width: 1100px) {
-  .pfx-grid { grid-template-columns: repeat(2, 1fr); }
-  .pfx-grid-card:first-child { flex-direction: column; min-height: unset; }
-  .pfx-grid-card:first-child .pfx-grid-img { width: 100%; min-height: unset; aspect-ratio: 16/9; }
-  .pfx-grid-card:first-child .pfx-grid-body { padding: 1.4rem 1.5rem 1.5rem; }
-  .pfx-grid-card:first-child .pfx-grid-title { font-size: 1.7rem; }
-  .pfx-grid-card:first-child .pfx-grid-desc { -webkit-line-clamp: 2; max-width: 100%; }
-}
 @media (max-width: 960px) {
   .pfx-filters { padding: 1.5rem 2.5rem; }
-  .pfx-grid { padding: 0 2.5rem 3rem; }
+  .pfx-index { padding: 1rem 2.5rem 3rem; }
+  .pfx-row { grid-template-columns: 220px minmax(0, 1fr) auto; gap: 1.75rem; }
+  .pfx-row-thumb { width: 220px; }
+  .pfx-row-desc { -webkit-line-clamp: 2; }
 }
-@media (max-width: 640px) {
+@media (max-width: 680px) {
   .pfx-filters { padding: 1.25rem 1.4rem; }
-  .pfx-grid { grid-template-columns: 1fr; padding: 0 1.4rem 2.5rem; }
-  .pfx-grid-card:first-child .pfx-grid-title { font-size: 1.4rem; }
+  .pfx-index { padding: 1rem 1.4rem 2.5rem; gap: 1.25rem; }
+  .pfx-row {
+    grid-template-columns: 1fr;
+    gap: 1rem; padding: 0.9rem;
+  }
+  .pfx-row:hover { transform: none; }
+  .pfx-row-thumb { width: 100%; }
+  .pfx-row-meta {
+    flex-direction: row; align-items: center;
+    justify-content: space-between; align-self: auto; gap: 0;
+  }
+  .pfx-row-arrow { width: 2.2rem; height: 2.2rem; }
 }
 
 /* ─── PORTFOLIO PAGE X (2026) ─── */
