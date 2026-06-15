@@ -17,29 +17,27 @@ export default function SunScroller() {
     let rotation = 0;
     let lastScrollY = window.scrollY;
     let rafId = 0;
-    let running = true;
 
-    const loop = () => {
-      if (!running) return;
-
+    // Solo trabaja al scrollear (rAF throttled), no en un loop perpetuo
+    const update = () => {
+      rafId = 0;
       const sy = window.scrollY;
       const visible = sy > window.innerHeight * 0.8;
       wrap.style.opacity = visible ? '1' : '0';
       wrap.style.pointerEvents = visible ? 'auto' : 'none';
 
-      const scrollDelta = sy - lastScrollY;
-      rotation += (scrollDelta / CIRCUMFERENCE) * 360;
+      rotation += ((sy - lastScrollY) / CIRCUMFERENCE) * 360;
       lastScrollY = sy;
-
       disc.style.transform = `rotate(${rotation}deg)`;
-
-      rafId = requestAnimationFrame(loop);
     };
 
-    rafId = requestAnimationFrame(loop);
+    const onScroll = () => { if (!rafId) rafId = requestAnimationFrame(update); };
+
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
 
     return () => {
-      running = false;
+      window.removeEventListener('scroll', onScroll);
       cancelAnimationFrame(rafId);
     };
   }, []);

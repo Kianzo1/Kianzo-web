@@ -1,0 +1,7 @@
+User-Agent: *
+Allow: /
+Disallow: /api/
+Disallow: /_next/
+
+Host: https://distrito.com.ar
+Sitemap: https://distrito.com.ar/sitemap.xml

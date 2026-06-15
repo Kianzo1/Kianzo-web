@@ -40,10 +40,9 @@ const projects: Project[] = [
     desc: 'Sitio premium para parrilla de autor en Mendoza. Experiencia visual cinematográfica con animaciones de scroll, carta interactiva y cava de vinos.',
     tags: ['Next.js', 'TypeScript', 'Tailwind'],
     img: '/portfolio/alma-condor.webp',
-    url: '#',
+    url: '/alma-condor/index.html',
     featured: true,
     color: '#C0001A',
-    comingSoon: true,
   },
   {
     slug: 'carrizo',
@@ -72,6 +71,20 @@ const projects: Project[] = [
     url: '/starlight-dancewear/index.html',
     featured: false,
     color: '#e879a0',
+  },
+  {
+    slug: 'barberia',
+    num: '05',
+    year: '2025',
+    title: 'Distrito Barbería',
+    cat: 'web',
+    catLabel: 'Web Institucional · Demo',
+    desc: 'Sitio premium para la cadena de barberías más grande de Mendoza. 5 sucursales, academia profesional, galería y reservas online.',
+    tags: ['Next.js', 'TypeScript', 'Tailwind'],
+    img: '/portfolio/barberia.webp',
+    url: '/barberia/index.html',
+    featured: false,
+    color: '#b8960c',
   },
   // ─── PRÓXIMOS PROYECTOS ───────────────────────────────────────────────────
   // Copiar bloque de arriba y pegar acá. Cambiar featured: false para que

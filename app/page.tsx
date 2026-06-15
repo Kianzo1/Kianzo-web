@@ -2,6 +2,7 @@
 
 import Cursor from '@/components/ui/Cursor';
 import ScrollProgress from '@/components/ui/ScrollProgress';
+import SunScroller from '@/components/ui/SunScroller';
 import RevealObserver from '@/components/ui/RevealObserver';
 import IntroScreen from '@/components/IntroScreen';
 import Navbar from '@/components/Navbar';
@@ -19,6 +20,7 @@ export default function Home() {
   return (
     <>
       <IntroScreen />
+      <div className="grain-overlay" aria-hidden />
       <Cursor />
       <ScrollProgress />
       <RevealObserver />
@@ -34,6 +36,7 @@ export default function Home() {
         <Contact />
       </main>
       <Footer />
+      <SunScroller />
     </>
   );
 }
