@@ -1,0 +1,16 @@
+.admin-layout *,
+.admin-layout a,
+.admin-layout button {
+  cursor: default !important;
+}
+
+.admin-layout input,
+.admin-layout textarea,
+.admin-layout select {
+  cursor: text !important;
+}
+
+.admin-layout button,
+.admin-layout [role="button"] {
+  cursor: pointer !important;
+}

@@ -68,12 +68,18 @@ export const metadata: Metadata = {
     description: 'Desarrollo web y apps móviles. Mendoza, Argentina.',
   },
   robots: { index: true, follow: true },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'Kianzo',
+  },
 };
 
 export const viewport: Viewport = {
   themeColor: '#0D0D0D',
   width: 'device-width',
   initialScale: 1,
+  viewportFit: 'cover',
 };
 
 const jsonLd = {

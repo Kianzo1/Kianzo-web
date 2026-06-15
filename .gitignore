@@ -36,6 +36,13 @@ yarn-error.log*
 # vercel
 .vercel
 
+# datos locales de runtime (Notion es el backend real; en Vercel usa /tmp)
+/data
+
+# editor / herramientas
+.vscode
+.claude
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

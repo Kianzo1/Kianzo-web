@@ -42,10 +42,11 @@ const nextConfig: NextConfig = {
 
   async headers() {
     return [
-      {
+      // Cache-Control en /_next/static solo en producción — en dev Turbopack necesita invalidar estos chunks
+      ...(!isDev ? [{
         source: "/_next/static/(.*)",
         headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
-      },
+      }] : []),
       {
         source: "/portfolio/(.*\\.webp)",
         headers: [{ key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" }],
