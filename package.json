@@ -9,7 +9,11 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@fontsource/inter": "^5.2.8",
+    "@fontsource/montserrat": "^5.2.8",
+    "@fontsource/space-grotesk": "^5.2.10",
     "@phosphor-icons/react": "^2.1.10",
+    "@react-pdf/renderer": "^4.5.1",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
     "animejs": "^4.4.1",

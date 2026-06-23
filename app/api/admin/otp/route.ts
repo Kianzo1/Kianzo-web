@@ -24,21 +24,26 @@ export async function POST(request: NextRequest) {
     const otp = String(Math.floor(100000 + Math.random() * 900000))
     otpStore.set('kianzo', { code: otp, expires: Date.now() + 5 * 60 * 1000 })
 
-    await transporter.sendMail({
-      from: `"Kianzo Panel" <${process.env.GMAIL_USER}>`,
-      to: process.env.GMAIL_USER,
-      subject: `🔐 Código de acceso: ${otp}`,
-      html: `
-        <div style="font-family:sans-serif;max-width:400px;margin:0 auto;padding:32px;background:#0d0d0d;color:#fff;border-radius:12px;">
-          <h2 style="margin:0 0 8px;color:#fff">Kianzo Panel</h2>
-          <p style="color:rgba(255,255,255,0.5);margin:0 0 32px;font-size:14px">Código de acceso de un solo uso</p>
-          <div style="background:#1a1a1a;border:1px solid rgba(192,0,26,0.3);border-radius:10px;padding:24px;text-align:center;">
-            <span style="font-size:42px;font-weight:700;letter-spacing:12px;color:#fff">${otp}</span>
+    if (process.env.NODE_ENV === 'development') {
+      // En local el OTP se imprime en la terminal (no se envía email)
+      console.log(`\n🔐 OTP de desarrollo: ${otp}\n`)
+    } else {
+      await transporter.sendMail({
+        from: `"Kianzo Panel" <${process.env.GMAIL_USER}>`,
+        to: process.env.GMAIL_USER,
+        subject: `🔐 Código de acceso: ${otp}`,
+        html: `
+          <div style="font-family:sans-serif;max-width:400px;margin:0 auto;padding:32px;background:#0d0d0d;color:#fff;border-radius:12px;">
+            <h2 style="margin:0 0 8px;color:#fff">Kianzo Panel</h2>
+            <p style="color:rgba(255,255,255,0.5);margin:0 0 32px;font-size:14px">Código de acceso de un solo uso</p>
+            <div style="background:#1a1a1a;border:1px solid rgba(192,0,26,0.3);border-radius:10px;padding:24px;text-align:center;">
+              <span style="font-size:42px;font-weight:700;letter-spacing:12px;color:#fff">${otp}</span>
+            </div>
+            <p style="color:rgba(255,255,255,0.3);font-size:12px;margin:16px 0 0;text-align:center">Válido por 5 minutos · Solo uso interno</p>
           </div>
-          <p style="color:rgba(255,255,255,0.3);font-size:12px;margin:16px 0 0;text-align:center">Válido por 5 minutos · Solo uso interno</p>
-        </div>
-      `,
-    })
+        `,
+      })
+    }
 
     return NextResponse.json({ ok: true, step: 'otp_sent' })
   }

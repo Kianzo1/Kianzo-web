@@ -1,9 +1,10 @@
 'use client'
 
-import { useState, useEffect, useRef, useCallback, FormEvent, DragEvent } from 'react'
+import { useState, useEffect, useCallback, FormEvent } from 'react'
 import { useLiveRefresh } from '@/lib/useLiveRefresh'
-import { CheckCircle, Warning, FilePdf, UploadSimple, X } from '@phosphor-icons/react'
+import { CheckCircle, Warning } from '@phosphor-icons/react'
 import CustomSelect from '@/app/admin/components/CustomSelect'
+import PdfDropZone from '@/app/admin/components/PdfDropZone'
 
 type Presupuesto = {
   id: string; proyecto: string; cliente: string
@@ -29,12 +30,9 @@ export default function CerrarPresupuestoPage() {
   const [notas, setNotas] = useState('')
   const [crearProyecto, setCrearProyecto] = useState(true)
   const [archivo, setArchivo] = useState<File | null>(null)
-  const [dragging, setDragging] = useState(false)
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState('')
-  const fileInputRef = useRef<HTMLInputElement>(null)
-
   const loadPresupuestos = useCallback(() => {
     fetch('/api/admin/presupuestos')
       .then(r => r.json())
@@ -45,18 +43,6 @@ export default function CerrarPresupuestoPage() {
   useLiveRefresh(loadPresupuestos)
 
   const seleccionado = presupuestos.find(p => p.id === presupuestoId)
-
-  function handleDragOver(e: DragEvent) { e.preventDefault(); setDragging(true) }
-  function handleDragLeave() { setDragging(false) }
-  function handleDrop(e: DragEvent) {
-    e.preventDefault(); setDragging(false)
-    const f = e.dataTransfer.files[0]
-    if (f && (f.type === 'application/pdf' || f.name.endsWith('.pdf'))) setArchivo(f)
-  }
-  function handleFileInput(e: React.ChangeEvent<HTMLInputElement>) {
-    const f = e.target.files?.[0]
-    if (f) setArchivo(f)
-  }
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
@@ -213,51 +199,8 @@ export default function CerrarPresupuestoPage() {
 
         {/* Zona de upload PDF */}
         <div style={field}>
-          <label style={lbl}>Adjuntar presupuesto PDF</label>
-          <div
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
-            onClick={() => !archivo && fileInputRef.current?.click()}
-            style={{
-              border: `1.5px dashed ${dragging ? '#C0001A' : archivo ? 'rgba(16,185,129,0.4)' : 'rgba(255,255,255,0.12)'}`,
-              borderRadius: 10,
-              padding: '24px 20px',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: 8,
-              background: dragging ? 'rgba(192,0,26,0.06)' : archivo ? 'rgba(16,185,129,0.05)' : 'rgba(255,255,255,0.02)',
-              transition: 'all 0.2s',
-              cursor: archivo ? 'default' : 'pointer',
-            }}
-          >
-            {archivo ? (
-              <>
-                <FilePdf size={28} color="#10B981" />
-                <p style={{ fontSize: 13, color: '#fff', margin: 0, fontWeight: 500 }}>{archivo.name}</p>
-                <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', margin: 0 }}>
-                  {(archivo.size / 1024).toFixed(0)} KB
-                </p>
-                <button
-                  type="button"
-                  onClick={e => { e.stopPropagation(); setArchivo(null) }}
-                  style={{ display: 'flex', alignItems: 'center', gap: 4, marginTop: 4, fontSize: 11, color: 'rgba(255,255,255,0.3)', background: 'none', border: 'none', textDecoration: 'underline', textUnderlineOffset: 3 }}
-                >
-                  <X size={11} /> Quitar archivo
-                </button>
-              </>
-            ) : (
-              <>
-                <UploadSimple size={26} color={dragging ? '#C0001A' : 'rgba(255,255,255,0.2)'} />
-                <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', margin: 0 }}>
-                  {dragging ? 'Soltá el archivo aquí' : 'Arrastrá el PDF o hacé click para seleccionar'}
-                </p>
-                <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.2)', margin: 0 }}>Solo archivos PDF</p>
-              </>
-            )}
-          </div>
-          <input ref={fileInputRef} type="file" accept=".pdf,application/pdf" onChange={handleFileInput} style={{ display: 'none' }} />
+          <label style={lbl}>Adjuntar contrato PDF firmado</label>
+          <PdfDropZone archivo={archivo} onFile={setArchivo} />
         </div>
 
         {/* Notas */}

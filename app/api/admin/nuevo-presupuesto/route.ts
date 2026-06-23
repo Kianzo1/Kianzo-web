@@ -7,36 +7,11 @@ const NOTION_HEADERS = {
   'Content-Type': 'application/json',
 }
 
-async function uploadFileToNotion(archivo: File): Promise<string | null> {
-  try {
-    const createRes = await fetch('https://api.notion.com/v1/file_uploads', {
-      method: 'POST',
-      headers: NOTION_HEADERS,
-      body: JSON.stringify({
-        filename: archivo.name,
-        content_type: archivo.type || 'application/pdf',
-      }),
-    })
-    if (!createRes.ok) return null
-
-    const { id, upload_url } = await createRes.json()
-    const arrayBuffer = await archivo.arrayBuffer()
-    const fd = new FormData()
-    fd.append('file', new Blob([arrayBuffer], { type: archivo.type }), archivo.name)
-
-    await fetch(upload_url, {
-      method: 'PUT',
-      headers: {
-        'Authorization': `Bearer ${process.env.NOTION_TOKEN}`,
-        'Notion-Version': '2022-06-28',
-      },
-      body: fd,
-    })
-
-    return id
-  } catch {
-    return null
-  }
+function richText(value: string) {
+  return [{ text: { content: value.slice(0, 2000) } }]
+}
+function dateVal(value: string) {
+  return value ? { start: value } : undefined
 }
 
 export async function POST(request: NextRequest) {
@@ -44,46 +19,53 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
   }
 
-  const contentType = request.headers.get('content-type') ?? ''
-  let proyecto = '', cliente = '', descripcion = '', servicio = '', monto = '', estado = 'Borrador'
-  let archivo: File | null = null
+  const body = await request.json()
 
-  if (contentType.includes('multipart/form-data')) {
-    const fd = await request.formData()
-    proyecto    = fd.get('proyecto') as string ?? ''
-    cliente     = fd.get('cliente') as string ?? ''
-    descripcion = fd.get('descripcion') as string ?? ''
-    servicio    = fd.get('servicio') as string ?? ''
-    monto       = fd.get('monto') as string ?? ''
-    estado      = fd.get('estado') as string ?? 'Borrador'
-    archivo     = fd.get('archivo') as File | null
-  } else {
-    const body = await request.json()
-    ;({ proyecto, cliente, descripcion, servicio, monto, estado } = body)
-  }
+  const {
+    proyecto, cliente, empresa, telefono, email, fechaEmision,
+    descripcion, alcanceIncluye, alcanceNoIncluye,
+    servicio, estado,
+    fechaInicio, fechaEntrega, duracion,
+    monto, anticipo, saldo,
+    formaDePago, rondas,
+    contrataMant, valorMant, periodicidad,
+  } = body
 
   if (!proyecto || !cliente) {
     return NextResponse.json({ error: 'Faltan campos obligatorios' }, { status: 400 })
   }
 
-  const fileUploadId = archivo && archivo.size > 0 ? await uploadFileToNotion(archivo) : null
+  const properties: Record<string, unknown> = {
+    Proyecto:  { title: richText(proyecto) },
+    Cliente:   { rich_text: richText(cliente) },
+    Estado:    { select: { name: estado || 'Borrador' } },
+    ...(empresa    && { Empresa:   { rich_text: richText(empresa) } }),
+    ...(telefono   && { Telefono:  { phone_number: telefono } }),
+    ...(email      && { Email:     { email } }),
+    ...(fechaEmision && { 'Fecha emision': { date: dateVal(fechaEmision) } }),
+    ...(descripcion  && { 'Descripción':   { rich_text: richText(descripcion) } }),
+    ...(alcanceIncluye   && { 'Alcance incluye':    { rich_text: richText(alcanceIncluye) } }),
+    ...(alcanceNoIncluye && { 'Alcance no incluye': { rich_text: richText(alcanceNoIncluye) } }),
+    ...(servicio  && { Servicio: { select: { name: servicio } } }),
+    ...(fechaInicio  && { 'Fecha inicio':   { date: dateVal(fechaInicio) } }),
+    ...(fechaEntrega && { 'Fecha entrega':  { date: dateVal(fechaEntrega) } }),
+    ...(duracion     && { 'Duracion estimada': { rich_text: richText(duracion) } }),
+    ...(monto        && { 'Monto USD':     { number: parseFloat(monto) } }),
+    ...(anticipo     && { 'Anticipo USD':  { number: parseFloat(anticipo) } }),
+    ...(saldo        && { 'Saldo USD':     { number: parseFloat(saldo) } }),
+    ...(formaDePago  && { 'Forma de pago': { rich_text: richText(formaDePago) } }),
+    ...(rondas       && { 'Rondas revision': { number: parseInt(rondas) } }),
+    'Contrata mantenimiento': { checkbox: !!contrataMant },
+    ...(contrataMant && valorMant   && { 'Valor mantenimiento':       { number: parseFloat(valorMant) } }),
+    ...(contrataMant && periodicidad && { 'Periodicidad mantenimiento': { select: { name: periodicidad } } }),
+  }
 
   const res = await fetch('https://api.notion.com/v1/pages', {
     method: 'POST',
     headers: NOTION_HEADERS,
     body: JSON.stringify({
       parent: { database_id: process.env.NOTION_PRESUPUESTOS_DB_ID },
-      properties: {
-        Proyecto: { title: [{ text: { content: proyecto } }] },
-        Cliente: { rich_text: [{ text: { content: cliente } }] },
-        ...(descripcion && { Descripción: { rich_text: [{ text: { content: descripcion } }] } }),
-        ...(servicio && { Servicio: { select: { name: servicio } } }),
-        ...(monto && { 'Monto USD': { number: parseFloat(monto) } }),
-        Estado: { select: { name: estado } },
-        ...(fileUploadId && {
-          Archivo: { files: [{ type: 'file_upload', file_upload: { id: fileUploadId } }] },
-        }),
-      },
+      properties,
     }),
   })
 
@@ -92,5 +74,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: err.message }, { status: 500 })
   }
 
-  return NextResponse.json({ ok: true })
+  const created = await res.json()
+  return NextResponse.json({ ok: true, id: created.id })
 }

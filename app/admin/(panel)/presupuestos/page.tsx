@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState, useCallback, useMemo, useRef } from 'react'
-import { Clock, CurrencyDollar, Trash, Warning, X, MagnifyingGlass, CaretDown } from '@phosphor-icons/react'
+import { Clock, CurrencyDollar, Trash, Warning, X, MagnifyingGlass, CaretDown, FilePdf, Spinner } from '@phosphor-icons/react'
 import { useLiveRefresh } from '@/lib/useLiveRefresh'
 import { createPortal } from 'react-dom'
 import CustomSelect from '@/app/admin/components/CustomSelect'
@@ -120,6 +120,40 @@ function EstadoPresupuestoPill({ item, onUpdate }: { item: Presupuesto; onUpdate
         document.body
       )}
     </>
+  )
+}
+
+function BotonPDF({ id, cliente }: { id: string; cliente: string }) {
+  const [loading, setLoading] = useState(false)
+
+  async function handleClick(e: React.MouseEvent) {
+    e.stopPropagation()
+    setLoading(true)
+    const res = await fetch(`/api/admin/generar-pdf?id=${id}`)
+    if (res.ok) {
+      const blob = await res.blob()
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `propuesta-${cliente.replace(/\s+/g, '-').toLowerCase() || 'kianzo'}.pdf`
+      a.click()
+      URL.revokeObjectURL(url)
+    }
+    setLoading(false)
+  }
+
+  return (
+    <button
+      onClick={handleClick}
+      disabled={loading}
+      title="Generar PDF"
+      style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '7px 14px', borderRadius: 8, border: loading ? '1px solid rgba(192,0,26,0.3)' : '1px solid rgba(192,0,26,0.4)', background: loading ? 'rgba(192,0,26,0.06)' : 'rgba(192,0,26,0.1)', color: loading ? 'rgba(255,255,255,0.4)' : '#fff', fontSize: 12, fontFamily: 'inherit', cursor: loading ? 'default' : 'pointer', transition: 'all 0.15s', flexShrink: 0 }}
+    >
+      {loading
+        ? <><Spinner size={13} style={{ animation: 'kzSpin 0.8s linear infinite' }} />Generando...</>
+        : <><FilePdf size={13} weight="fill" />Generar PDF</>
+      }
+    </button>
   )
 }
 
@@ -290,6 +324,7 @@ export default function PresupuestosPage() {
         @keyframes kzRowIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
         @keyframes shimmer  { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
         @keyframes kzAcIn   { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes kzSpin   { to{transform:rotate(360deg)} }
       `}</style>
 
       {/* Lista */}
@@ -362,9 +397,9 @@ export default function PresupuestosPage() {
                   </div>
                 </div>
 
-                {/* Panel expandido con bordeaux */}
-                <div style={{ maxHeight: isExpanded ? 140 : 0, overflow: 'hidden', transition: 'max-height 0.3s cubic-bezier(0.32,0.72,0,1)' }}>
-                  <div style={{ margin: '0 18px 14px', padding: '14px 16px', background: 'rgba(192,0,26,0.05)', border: '1px solid rgba(192,0,26,0.15)', borderRadius: 10, display: 'flex', gap: 20, flexWrap: 'wrap' }}>
+                {/* Panel expandido */}
+                <div style={{ maxHeight: isExpanded ? 180 : 0, overflow: 'hidden', transition: 'max-height 0.3s cubic-bezier(0.32,0.72,0,1)' }}>
+                  <div style={{ margin: '0 18px 14px', padding: '14px 16px', background: 'rgba(192,0,26,0.05)', border: '1px solid rgba(192,0,26,0.15)', borderRadius: 10, display: 'flex', gap: 20, flexWrap: 'wrap', alignItems: 'flex-end' }}>
                     <div>
                       <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 3px' }}>Creado</p>
                       <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', margin: 0 }}>{fecha.toLocaleDateString('es-AR', { day: '2-digit', month: 'short', year: 'numeric' })}</p>
@@ -387,6 +422,10 @@ export default function PresupuestosPage() {
                         <p style={{ fontSize: 16, color: '#fff', margin: 0, fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>USD {p.monto.toLocaleString('es-AR')}</p>
                       </div>
                     )}
+                    {/* Botón generar PDF */}
+                    <div style={{ marginLeft: 'auto' }}>
+                      <BotonPDF id={p.id} cliente={p.cliente} />
+                    </div>
                   </div>
                 </div>
               </div>
