@@ -422,8 +422,8 @@ export default function PresupuestoPDF({ data, logo }: { data: PDFPresupuestoDat
             {SERVICIOS.map(svc => {
               const on = data.servicio === svc || (svc === 'Mantenimiento' && data.contrataMantenimiento)
               return (
-                <View key={svc} style={[s.svcChip, on && s.svcChipOn]}>
-                  <View style={[s.svcDot, on && s.svcDotOn]}>
+                <View key={svc} style={[s.svcChip, on ? s.svcChipOn : null]}>
+                  <View style={[s.svcDot, on ? s.svcDotOn : null]}>
                     {on && <CheckSvg sz={8} />}
                   </View>
                   <Text style={on ? s.svcLabelOn : s.svcLabel}>{svc}</Text>
