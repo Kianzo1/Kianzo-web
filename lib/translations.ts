@@ -56,6 +56,10 @@ const translations = {
     svc6_tagline: 'Tu sitio siempre en perfecto estado',
     svc6_t1: 'Actualizaciones', svc6_t2: 'Seguridad', svc6_t3: 'Soporte mensual',
 
+    svc7_name: 'Dashboard & Panel Admin',
+    svc7_tagline: 'El control total de tu negocio en un solo lugar',
+    svc7_t1: 'Métricas en tiempo real', svc7_t2: 'Gestión de clientes', svc7_t3: 'Reportes y exportación',
+
     combo_title: 'Combo Web + App Móvil',
     combo_desc: 'Contratá ambos servicios juntos y accedé a un descuento especial. La solución digital completa para tu negocio.',
     combo_pill: '20% OFF · Consultar',
@@ -228,6 +232,10 @@ const translations = {
     svc6_name: 'Maintenance',
     svc6_tagline: 'Your site always in perfect shape',
     svc6_t1: 'Updates', svc6_t2: 'Security', svc6_t3: 'Monthly support',
+
+    svc7_name: 'Dashboard & Admin Panel',
+    svc7_tagline: 'Total control of your business in one place',
+    svc7_t1: 'Real-time metrics', svc7_t2: 'Client management', svc7_t3: 'Reports & exports',
 
     combo_title: 'Web + Mobile App Bundle',
     combo_desc: 'Get both services together and unlock a special discount. The complete digital solution for your business.',

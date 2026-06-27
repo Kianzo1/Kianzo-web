@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { useLang } from '@/context/LanguageContext';
 
-type IconKey = 'landing' | 'web' | 'ecommerce' | 'app' | 'mantenimiento' | 'custom' | 'automation';
+type IconKey = 'landing' | 'web' | 'ecommerce' | 'app' | 'mantenimiento' | 'custom' | 'automation' | 'dashboard';
 
 const Icon = ({ k }: { k: IconKey }) => {
   switch (k) {
@@ -14,6 +14,7 @@ const Icon = ({ k }: { k: IconKey }) => {
     case 'mantenimiento': return (<svg viewBox="0 0 30 30" fill="none" stroke="#C0001A" strokeWidth="1.4" strokeLinecap="round"><circle cx="15" cy="15" r="5" /><path d="M15 2v4M15 24v4M2 15h4M24 15h4M6.34 6.34l2.83 2.83M20.83 20.83l2.83 2.83M6.34 23.66l2.83-2.83M20.83 9.17l2.83-2.83" /></svg>);
     case 'custom': return (<svg viewBox="0 0 30 30" fill="none" stroke="#C0001A" strokeWidth="1.4" strokeLinecap="round"><path d="M4 22L10 16L14 20L20 12L26 16" /><rect x="3" y="3" width="24" height="24" rx="2" /><circle cx="22" cy="8" r="3" /></svg>);
     case 'automation': return (<svg viewBox="0 0 30 30" fill="none" stroke="#C0001A" strokeWidth="1.4" strokeLinecap="round"><path d="M4 6h22a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H14l-6 5v-5H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z" /><circle cx="10" cy="14" r="1" fill="#C0001A" stroke="none" /><circle cx="15" cy="14" r="1" fill="#C0001A" stroke="none" /><circle cx="20" cy="14" r="1" fill="#C0001A" stroke="none" /></svg>);
+    case 'dashboard': return (<svg viewBox="0 0 30 30" fill="none" stroke="#C0001A" strokeWidth="1.4" strokeLinecap="round"><rect x="2" y="3" width="26" height="22" rx="2" /><line x1="2" y1="9" x2="28" y2="9" /><rect x="5" y="13" width="8" height="8" rx="1" /><line x1="16" y1="13" x2="25" y2="13" /><line x1="16" y1="17" x2="25" y2="17" /><line x1="16" y1="21" x2="21" y2="21" /></svg>);
   }
 };
 
@@ -28,6 +29,7 @@ export default function Services() {
     { k: 'automation' as IconKey, num: '04', name: t('svc4_name'), tagline: t('svc4_tagline'), tags: [t('svc4_t1'), t('svc4_t2'), t('svc4_t3')], price: t('svc_consult'), priceMuted: t('svc_consult_muted'), badge: { text: t('svc_badge_new'), variant: 'new' as const } },
     { k: 'app' as IconKey, num: '05', name: t('svc5_name'), tagline: t('svc5_tagline'), tags: [t('svc5_t1'), t('svc5_t2'), t('svc5_t3')], price: t('svc_consult'), priceMuted: t('svc_quote_free') },
     { k: 'mantenimiento' as IconKey, num: '06', name: t('svc6_name'), tagline: t('svc6_tagline'), tags: [t('svc6_t1'), t('svc6_t2'), t('svc6_t3')], price: 'USD 15', priceMuted: t('svc_month') },
+    { k: 'dashboard' as IconKey, num: '07', name: t('svc7_name'), tagline: t('svc7_tagline'), tags: [t('svc7_t1'), t('svc7_t2'), t('svc7_t3')], price: t('svc_consult'), priceMuted: t('svc_consult_muted'), badge: { text: t('svc_badge_new'), variant: 'new' as const } },
   ];
 
   useEffect(() => {
